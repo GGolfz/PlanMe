@@ -1,0 +1,26 @@
+version: "3"
+services:
+    planme_backend:
+        restart: always
+        build:
+            context: ./planme_backend
+            dockerfile: Dockerfile
+        volumes:
+            - ./planme_backend:/app
+        environment: 
+            - NODE_ENV=development
+            - PORT=5000
+            - DB_USER=planme_user
+            - DB_PASSWORD=PI3A8gLDftt5GKi
+            - DB_HOST=35.240.179.218
+            - DB_PORT=5432
+            - DB_NAME=planme_db
+        ports:
+            - "5000:5000"
+    nginx:
+        restart: always
+        depends_on:
+            - planme_backend
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
