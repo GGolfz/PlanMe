@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planme_flutter/widgets/appbar.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: Scaffold(body: Center(child:Text("Hello Plan Me"))));
+        home: Scaffold(appBar: PlanMeAppBar(), body: Center(child:Text("Hello Plan Me"))));
   }
 }
