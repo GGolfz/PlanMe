@@ -18,20 +18,20 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+    sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
+    flutter:
+        sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+    cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+    flutter_test:
+        sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -42,7 +42,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+    uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -60,6 +60,16 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+    fonts:
+      - family: Nunito
+        fonts:
+          - asset: assets/fonts/Nunito-Regular.ttf
+          - asset: assets/fonts/Nunito-Bold.ttf
+            weight: 700
+          - asset: assets/fonts/Nunito-SemiBold.ttf
+            weight: 600
+          - asset: assets/fonts/Nunito-Light.ttf
+            weight: 300
   # fonts:
   #   - family: Schyler
   #     fonts:
