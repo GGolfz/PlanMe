@@ -38,37 +38,43 @@ class Authenicate with ChangeNotifier {
   }
 
   Future<void> login(UserInfo userInfo) async {
-    print('Email:' + userInfo.email);
-    print('Password:' + userInfo.password);
     if (userInfo.email == "" && userInfo.password == "") {
-      throw AuthenicateException(
-          "Email is required", "Password is required", "Please try again");
+      throw AuthenicateException("Email is required", "Password is required");
     }
     if (userInfo.email == "") {
-      throw AuthenicateException("Email is required", null, "Please try again");
+      throw AuthenicateException("Email is required", null);
     }
     if (userInfo.password == "") {
-      throw AuthenicateException(
-          null, "Password is required", "Please try again");
+      throw AuthenicateException(null, "Password is required");
     }
-    if (userInfo.email == "test" && userInfo.password != "test") {
-      throw AuthenicateException(
-          null, "Invalid username or password", "Please try again");
+    try {
+      final response = await Dio().post(baseURL + '/auth/login',
+          data: {"email": userInfo.email, "password": userInfo.password});
+      final token = response.data['token'];
+      authInfo = AuthInfo(token);
+      notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode(
+        {
+          'token': token,
+        },
+      );
+      prefs.setString('userData', userData);
+    } catch (error) {
+      throw AuthenicateException(null, "Invalid username or password");
     }
     notifyListeners();
   }
 
   Future<void> register(UserInfo userInfo) async {
     if (userInfo.email == "" && userInfo.password == "") {
-      throw AuthenicateException(
-          "Email is required", "Password is required", "Please try again");
+      throw AuthenicateException("Email is required", "Password is required");
     }
     if (userInfo.email == "") {
-      throw AuthenicateException("Email is required", null, "Please try again");
+      throw AuthenicateException("Email is required", null);
     }
     if (userInfo.password == "") {
-      throw AuthenicateException(
-          null, "Password is required", "Please try again");
+      throw AuthenicateException(null, "Password is required");
     }
     try {
       final response = await Dio().post(baseURL + '/auth/register',
@@ -83,9 +89,8 @@ class Authenicate with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
-      print(token);
     } catch (error) {
-      throw AuthenicateException(null, "Email is already used", null);
+      throw AuthenicateException(null, "Email is already used");
     }
   }
 }
