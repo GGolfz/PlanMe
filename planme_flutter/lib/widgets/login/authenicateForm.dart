@@ -86,7 +86,9 @@ class LoginForm extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          customButton("LOG IN", () {})
+          customButton("LOG IN", () {
+            Navigator.of(context).pushNamed('/calendar');
+          })
         ],
       ),
     );
@@ -94,16 +96,19 @@ class LoginForm extends StatelessWidget {
 }
 
 Widget customButton(String text, Function handleClick) {
-  return Container(
-    child: Text(
-      text,
-      style: landingButtonText,
+  return GestureDetector(
+    onTap: handleClick,
+    child: Container(
+      child: Text(
+        text,
+        style: landingButtonText,
+      ),
+      width: 130,
+      height: 48,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: primaryColor, borderRadius: BorderRadius.circular(10)),
     ),
-    width: 130,
-    height: 48,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-        color: primaryColor, borderRadius: BorderRadius.circular(10)),
   );
 }
 

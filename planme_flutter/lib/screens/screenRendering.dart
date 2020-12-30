@@ -14,7 +14,7 @@ class ScreenRendering extends StatefulWidget {
 }
 
 class _ScreenRenderingState extends State<ScreenRendering> {
-  var currentRoute = '/';
+  var currentRoute = '/calendar';
   Widget _renderScreen() {
     switch (currentRoute) {
       case calendarRoute:
