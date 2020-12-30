@@ -87,7 +87,7 @@ class LoginForm extends StatelessWidget {
             height: 15,
           ),
           customButton("LOG IN", () {
-            Navigator.of(context).pushNamed('/calendar');
+            Navigator.of(context).pushReplacementNamed('/calendar');
           })
         ],
       ),
