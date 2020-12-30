@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../configs/color.dart' show appbarColor;
+import '../../configs/color.dart' show appbarColor;
 
 class PlanMeAppBar extends StatefulWidget implements PreferredSizeWidget {
   PlanMeAppBar({Key key})

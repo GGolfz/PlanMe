@@ -5,8 +5,8 @@ import 'timerScreen.dart';
 import 'reportScreen.dart';
 import 'achievementScreen.dart';
 import 'errorScreen.dart';
-import '../widgets/appBar.dart';
-import '../widgets/bottomNavigator.dart';
+import '../widgets/layout/appBar.dart';
+import '../widgets/layout/bottomNavigator.dart';
 
 class ScreenRendering extends StatefulWidget {
   @override
