@@ -11,10 +11,10 @@ class LoginScreen extends StatelessWidget {
     appLogo(),
     renderText("plan", landingTitleText),
     renderText("me", landingSubTitleText),
-    googleAuth(),
-    renderText("or", landingOrText),
+    // googleAuth(),
+    // renderText("or", landingOrText),
     SizedBox(
-      height: 20,
+      height: 40,
     ),
     AuthenicateForm(),
   ];

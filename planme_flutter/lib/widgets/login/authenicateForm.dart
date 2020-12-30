@@ -113,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
             userInfo = UserInfo(email: userInfo.email, password: value);
           }),
           SizedBox(
-            height: 15,
+            height: 25,
           ),
           customButton(
               isLoading
