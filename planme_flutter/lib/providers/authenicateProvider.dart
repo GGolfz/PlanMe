@@ -32,7 +32,6 @@ class Authenicate with ChangeNotifier {
     }
     final extractedUserData = prefs.getString('userData');
     authInfo = AuthInfo(extractedUserData);
-    print(authInfo.isAuth);
     notifyListeners();
     return true;
   }
