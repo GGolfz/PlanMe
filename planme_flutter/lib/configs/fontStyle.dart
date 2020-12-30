@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
+import 'color.dart';
 
+const landingTitleText = TextStyle(
+    fontFamily: 'Nutino',
+    fontSize: 64,
+    fontWeight: FontWeight.w600,
+    color: landingTitleColor);
+const landingSubTitleText = TextStyle(
+    fontFamily: 'Nutino',
+    fontSize: 36,
+    fontWeight: FontWeight.w400,
+    color: landingSubTitleColor);
 const titleText =
     TextStyle(fontFamily: 'Nutino', fontSize: 22, fontWeight: FontWeight.bold);
 const subTitleText =

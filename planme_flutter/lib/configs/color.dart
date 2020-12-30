@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 const landingBackgroundColor = const Color(0xFFCBEDFF);
+const landingTitleColor = const Color(0xFF9CD6EF);
+const landingSubTitleColor = const Color(0xFF122549);
 const appbarColor = const Color(0xFFCBEDFF);
 const primaryColor = const Color(0xFF5185EC);
 const secondaryColor = const Color(0xFF8FC3FF);
