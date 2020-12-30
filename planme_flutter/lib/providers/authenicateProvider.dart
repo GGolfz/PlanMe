@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../model/authenicateException.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:planme_flutter/configs/api.dart';
+import 'dart:convert';
 
 class UserInfo {
   final String email;
@@ -9,32 +12,28 @@ class UserInfo {
 }
 
 class AuthInfo {
-  final String _userId;
-  AuthInfo(this._userId);
-  String get userId {
-    return _userId;
+  final String _token;
+  AuthInfo(this._token);
+  String get token {
+    return token;
   }
 
   bool get isAuth {
-    return _userId != null;
+    return _token != null;
   }
 }
 
 class Authenicate with ChangeNotifier {
   AuthInfo authInfo = AuthInfo(null);
-  // Wait for implementing backend
   Future<bool> tryAutoLogin() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // if (!prefs.containsKey('userData')) {
-    //   return false;
-    // }
-    // final extractedUserData =
-    //     prefs.getString('userData') as Map<String, Object>;
-
-    final extractedUserData = {"userId": "mockup"};
-    authInfo = AuthInfo(extractedUserData['userId']);
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+    final extractedUserData = prefs.getString('userData');
+    authInfo = AuthInfo(extractedUserData);
     print(authInfo.isAuth);
-    // notifyListeners();
+    notifyListeners();
     return true;
   }
 
@@ -60,7 +59,33 @@ class Authenicate with ChangeNotifier {
   }
 
   Future<void> register(UserInfo userInfo) async {
-    print("HI");
-    throw AuthenicateException(null, null, null);
+    if (userInfo.email == "" && userInfo.password == "") {
+      throw AuthenicateException(
+          "Email is required", "Password is required", "Please try again");
+    }
+    if (userInfo.email == "") {
+      throw AuthenicateException("Email is required", null, "Please try again");
+    }
+    if (userInfo.password == "") {
+      throw AuthenicateException(
+          null, "Password is required", "Please try again");
+    }
+    try {
+      final response = await Dio().post(baseURL + '/auth/register',
+          data: {"email": userInfo.email, "password": userInfo.password});
+      final token = response.data['token'];
+      authInfo = AuthInfo(token);
+      notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode(
+        {
+          'token': token,
+        },
+      );
+      prefs.setString('userData', userData);
+      print(token);
+    } catch (error) {
+      throw AuthenicateException(null, "Email is already used", null);
+    }
   }
 }
