@@ -41,7 +41,7 @@ class _ScreenRenderingState extends State<ScreenRendering> {
     return Scaffold(
       appBar: PlanMeAppBar(),
       body: _renderScreen(),
-      bottomNavigationBar: PlanMeBottomNagivatorBar(_navigate),
+      bottomNavigationBar: PlanMeBottomNagivatorBar(_navigate, currentRoute),
     );
   }
 }
