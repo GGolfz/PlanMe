@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../model/authenicateException.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfo {
   final String email;
@@ -7,8 +8,36 @@ class UserInfo {
   UserInfo({@required this.email, @required this.password});
 }
 
+class AuthInfo {
+  final String _userId;
+  AuthInfo(this._userId);
+  String get userId {
+    return _userId;
+  }
+
+  bool get isAuth {
+    return _userId != null;
+  }
+}
+
 class Authenicate with ChangeNotifier {
+  AuthInfo authInfo = AuthInfo(null);
   // Wait for implementing backend
+  Future<bool> tryAutoLogin() async {
+    // final prefs = await SharedPreferences.getInstance();
+    // if (!prefs.containsKey('userData')) {
+    //   return false;
+    // }
+    // final extractedUserData =
+    //     prefs.getString('userData') as Map<String, Object>;
+
+    final extractedUserData = {"userId": "mockup"};
+    authInfo = AuthInfo(extractedUserData['userId']);
+    print(authInfo.isAuth);
+    // notifyListeners();
+    return true;
+  }
+
   Future<void> login(UserInfo userInfo) async {
     print('Email:' + userInfo.email);
     print('Password:' + userInfo.password);

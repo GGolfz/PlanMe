@@ -20,7 +20,6 @@ class LoginScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    var _form = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: landingBackgroundColor,
       body: Container(

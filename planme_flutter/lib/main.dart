@@ -13,16 +13,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (ctx) => Authenicate())],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: LoginScreen(),
-        routes: {'/calendar': (ctx) => ScreenRendering()},
-      ),
-    );
+        providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => Authenicate(),
+          )
+        ],
+        child: Consumer<Authenicate>(
+          builder: (ctx, auth, _) => MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home: auth.authInfo.isAuth
+                ? ScreenRendering()
+                : FutureBuilder(
+                    future: auth.tryAutoLogin(),
+                    builder: (ctx, authResultSnapshot) =>
+                        authResultSnapshot.connectionState ==
+                                ConnectionState.waiting
+                            ? Scaffold(
+                                body: Text('...'),
+                              )
+                            : LoginScreen(),
+                  ),
+            routes: {'/calendar': (ctx) => ScreenRendering()},
+          ),
+        ));
   }
 }
