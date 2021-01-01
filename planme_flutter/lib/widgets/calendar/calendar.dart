@@ -148,12 +148,14 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
             Icons.chevron_left,
             size: 30,
           ),
-          leftChevronPadding: EdgeInsets.only(left: 25, top: 6, bottom: 6),
+          leftChevronPadding:
+              EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
           rightChevronIcon: Icon(
             Icons.chevron_right,
             size: 30,
           ),
-          rightChevronPadding: EdgeInsets.only(right: 25, top: 6, bottom: 6)),
+          rightChevronPadding:
+              EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6)),
       builders: CalendarBuilders(
         dowWeekdayBuilder: (
           context,

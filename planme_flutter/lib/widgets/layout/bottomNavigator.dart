@@ -43,7 +43,7 @@ class PlanMeNagivatorBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        iconSize: 40,
+        iconSize: 32,
         icon: SizedBox(
           height: 48,
           width: 48,
