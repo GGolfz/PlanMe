@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
 import '../widgets/login/appLogo.dart';
-import '../widgets/login/googleAuth.dart';
+// import '../widgets/login/googleAuth.dart';
 import '../widgets/login/authenicateForm.dart';
 import '../widgets/login/layoutRender.dart';
 

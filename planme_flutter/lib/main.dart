@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/screens/screenRendering.dart';
 import 'screens/loginScreen.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<Authenicate>(
           builder: (ctx, auth, _) => MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Plan Me',
             theme: ThemeData(
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
                         authResultSnapshot.connectionState ==
                                 ConnectionState.waiting
                             ? Scaffold(
+                                backgroundColor: landingBackgroundColor,
                                 body: Text('...'),
                               )
                             : LoginScreen(),
