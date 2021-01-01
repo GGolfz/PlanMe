@@ -41,3 +41,23 @@ const buttonText =
     TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600);
 const lightText =
     TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w300);
+const timerTextBig = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 60,
+    fontWeight: FontWeight.bold,
+    color: subTitleColorBlack);
+const timerTextNormal = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 44,
+    fontWeight: FontWeight.bold,
+    color: subTitleColorBlack);
+const timerTextBigWh = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 60,
+    fontWeight: FontWeight.bold,
+    color: deepWhite);
+const timerTextNormalWh = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 44,
+    fontWeight: FontWeight.bold,
+    color: deepWhite);

@@ -12,13 +12,33 @@ class CountdownTimer extends StatefulWidget {
 
 class _CountdownTimerState extends State<CountdownTimer> {
   Duration _duration = Duration(minutes: 25);
+  bool isStart = false;
   Duration _tempDuration;
   void _startTimer() {
+    setState(() {
+      isStart = true;
+    });
     showDialog(
         context: context,
         builder: (BuildContext ctx) {
-          return DialogTimer(_duration);
+          return DialogTimer(_duration, _onFinish, _onFail);
         });
+  }
+
+  void _onFail() {
+    setState(() {
+      isStart = false;
+    });
+    print("Oh No it fail !!!");
+    // Handle Fail Here !
+  }
+
+  void _onFinish() {
+    setState(() {
+      isStart = false;
+    });
+    print("Yeah Finish !!!");
+    // Handle Success Here !
   }
 
   void _editDuration() {
@@ -35,9 +55,14 @@ class _CountdownTimerState extends State<CountdownTimer> {
                   children: [
                     CupertinoButton(
                       onPressed: () {
+                        if (_tempDuration == Duration.zero) {
+                          return;
+                        }
                         setState(() {
-                          _duration = _tempDuration;
-                          _tempDuration = null;
+                          if (_tempDuration != null) {
+                            _duration = _tempDuration;
+                            _tempDuration = null;
+                          }
                         });
                         Navigator.of(context).pop();
                       },
@@ -46,6 +71,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
                   ],
                 ),
                 CupertinoTimerPicker(
+                  initialTimerDuration: _duration,
                   onTimerDurationChanged: (duration) {
                     _tempDuration = duration;
                   },
@@ -58,21 +84,18 @@ class _CountdownTimerState extends State<CountdownTimer> {
     String formatted;
     if (duration.inHours != 0) {
       formatted =
-          '${duration.inHours}:${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-      return Text(
-        formatted,
-        style: TextStyle(
-            fontFamily: 'Nunito', fontWeight: FontWeight.bold, fontSize: 40),
-      );
+          '${(duration.inHours).toString().padLeft(2, '0')}:${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+      return Text(formatted, style: timerTextNormal);
     } else {
       formatted =
-          '${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-      return Text(
-        formatted,
-        style: TextStyle(
-            fontFamily: 'Nunito', fontWeight: FontWeight.bold, fontSize: 54),
-      );
+          '${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+      return Text(formatted, style: timerTextBig);
     }
+  }
+
+  Widget renderIcon(double size, Icon icon, Function onPress) {
+    return IconButton(
+        color: secondaryColor, iconSize: size, icon: icon, onPressed: onPress);
   }
 
   @override
@@ -81,70 +104,92 @@ class _CountdownTimerState extends State<CountdownTimer> {
         width: double.infinity,
         height: double.infinity,
         color: backgroundColor,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 200,
-                  height: 200,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(200),
-                      border: Border.all(color: Color(0xFF8FC3FF), width: 6)),
-                  child: formatDuration(_duration),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                renderIcon(Icon(Icons.play_arrow), _startTimer),
-                renderIcon(Icon(Icons.edit), _editDuration),
-              ],
-            )
-          ],
-        ));
+        child: isStart
+            ? Container()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 250,
+                        height: 250,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(250),
+                            border:
+                                Border.all(color: secondaryColor, width: 6)),
+                        child: formatDuration(_duration),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      renderIcon(50, Icon(Icons.play_arrow), _startTimer),
+                      SizedBox(width: 10),
+                      renderIcon(36, Icon(Icons.edit), _editDuration),
+                    ],
+                  )
+                ],
+              ));
   }
-}
-
-Widget renderIcon(Icon icon, Function onPress) {
-  return IconButton(icon: icon, onPressed: onPress);
 }
 
 class DialogTimer extends StatelessWidget {
   final Duration duration;
-  DialogTimer(this.duration);
+  final Function onFinish;
+  final Function onFail;
+  DialogTimer(this.duration, this.onFinish, this.onFail);
+  void showYesNoDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        child: CupertinoAlertDialog(
+          title: Text(
+            "Stop?",
+            style: TextStyle(fontFamily: 'Nunito'),
+          ),
+          content: Text(
+            "Are you sure you want to stop?",
+            style: TextStyle(fontFamily: 'Nunito'),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(fontFamily: 'Nunito'),
+                )),
+            CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  onFail();
+                },
+                child: Text(
+                  "Yes",
+                  style: TextStyle(fontFamily: 'Nunito', color: Colors.red),
+                )),
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          showDialog(
-              context: context,
-              builder: (ctx) {
-                return Dialog(
-                  child: Column(
-                    children: [
-                      Text("Do you sure to close ?"),
-                      RaisedButton(
-                        child: Text("No"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      RaisedButton(
-                        child: Text("Yes"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ),
-                );
-              });
+          showYesNoDialog(context);
         },
         child: Dialog(
+            insetPadding: EdgeInsets.all(0),
             backgroundColor: Colors.transparent,
             elevation: 0,
             child: Container(
@@ -154,21 +199,24 @@ class DialogTimer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          print("must be not test");
-                        },
+                        onTap: () {},
                         child: Container(
                           width: 300,
                           height: 300,
                           child: CircularCountDownTimer(
-                            duration: duration.inSeconds,
-                            width: 200,
-                            height: 200,
-                            color: Colors.white,
-                            isReverse: true,
-                            textStyle: TextStyle(fontSize: 40),
-                            fillColor: Color(0xFF8FC3FF),
-                          ),
+                              duration: duration.inSeconds,
+                              width: 200,
+                              height: 200,
+                              color: Colors.white,
+                              isReverse: true,
+                              textStyle: duration.inHours > 0
+                                  ? timerTextNormalWh
+                                  : timerTextBigWh,
+                              fillColor: secondaryColor,
+                              onComplete: () {
+                                Navigator.of(context).pop();
+                                onFinish();
+                              }),
                         ),
                       ),
                     ]))));
