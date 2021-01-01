@@ -61,3 +61,20 @@ const timerTextNormalWh = TextStyle(
     fontSize: 44,
     fontWeight: FontWeight.bold,
     color: deepWhite);
+
+const calendarTitleColor = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: titleColorBlack);
+const calendarHeaderText = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: calendarPrimaryColor);
+
+const calendarNormalText = TextStyle(
+    fontFamily: 'Nunito',
+    fontSize: 18,
+    fontWeight: FontWeight.normal,
+    color: calendarPrimaryColor);
