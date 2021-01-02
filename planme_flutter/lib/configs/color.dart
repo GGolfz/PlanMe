@@ -34,14 +34,14 @@ const saturdaySecondaryColor = const Color(0xFFE1D5F1);
 const calendarPrimaryColor = const Color(0xFF706161);
 const calendarSecondaryColor = const Color(0xFFBCB5B5);
 const categoryColor = {
-  "A01": Colors.red,
-  "A02": Colors.amber,
-  "A03": Colors.pink,
-  "A04": Colors.blue,
-  "A05": Colors.green,
-  "A06": Colors.red,
-  "A07": Colors.amber,
-  "A08": Colors.pink,
-  "A09": Colors.blue,
-  "A10": Colors.green
+  "A01": Color(0xFFC7A8DA),
+  "A02": Color(0xFFFFA3A5),
+  "A03": Color(0xFFFCB6D0),
+  "A04": Color(0xFFF8DDA9),
+  "A05": Color(0xFFB6DCB6),
+  "A06": Color(0xFF4CDDB4),
+  "A07": Color(0xFF73E8F2),
+  "A08": Color(0xFF6EB5FF),
+  "A09": Color(0xFF42A5F5),
+  "A10": Color(0xFF87A2FF)
 };
