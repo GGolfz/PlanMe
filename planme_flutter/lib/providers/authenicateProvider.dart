@@ -11,27 +11,23 @@ class UserInfo {
   UserInfo({@required this.email, @required this.password});
 }
 
-class AuthInfo {
-  final String _token;
-  AuthInfo(this._token);
+class Authenicate with ChangeNotifier {
+  String _token = null;
   String get token {
-    return token;
+    return _token;
   }
 
   bool get isAuth {
     return _token != null;
   }
-}
 
-class Authenicate with ChangeNotifier {
-  AuthInfo authInfo = AuthInfo(null);
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
       return false;
     }
     final extractedUserData = prefs.getString('userData');
-    authInfo = AuthInfo(extractedUserData);
+    _token = json.decode(extractedUserData)['token'];
     notifyListeners();
     return true;
   }
@@ -50,7 +46,7 @@ class Authenicate with ChangeNotifier {
       final response = await Dio().post(baseURL + '/auth/login',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
-      authInfo = AuthInfo(token);
+      _token = token;
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
@@ -79,7 +75,7 @@ class Authenicate with ChangeNotifier {
       final response = await Dio().post(baseURL + '/auth/register',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
-      authInfo = AuthInfo(token);
+      _token = token;
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(

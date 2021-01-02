@@ -33,19 +33,15 @@ const saturdayPrimaryColor = const Color(0xFFD6ACEF);
 const saturdaySecondaryColor = const Color(0xFFE1D5F1);
 const calendarPrimaryColor = const Color(0xFF706161);
 const calendarSecondaryColor = const Color(0xFFBCB5B5);
-
-Color getColor(String colorCode) {
-  print(colorCode);
-  switch (colorCode) {
-    case "01":
-      return Colors.red;
-    case "02":
-      return Colors.amber;
-    case "03":
-      return Colors.pink;
-    case "04":
-      return Colors.green;
-    default:
-      return Colors.blue;
-  }
-}
+const categoryColor = {
+  "A01": Colors.red,
+  "A02": Colors.amber,
+  "A03": Colors.pink,
+  "A04": Colors.blue,
+  "A05": Colors.green,
+  "A06": Colors.red,
+  "A07": Colors.amber,
+  "A08": Colors.pink,
+  "A09": Colors.blue,
+  "A10": Colors.green
+};
