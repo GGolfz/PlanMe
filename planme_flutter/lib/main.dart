@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/providers/achievementProvider.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
+import 'package:planme_flutter/providers/eventProvider.dart';
 import 'package:planme_flutter/screens/screenRendering.dart';
 import 'screens/loginScreen.dart';
 
@@ -31,6 +32,12 @@ class MyApp extends StatelessWidget {
               update: (ctx, auth, prev) {
                 return UserAchievement(
                     auth.token, prev == null ? [] : prev.achievements);
+              }),
+          ChangeNotifierProxyProvider<Authenicate, UserEvent>(
+              create: (ctx) => UserEvent(null,[]),
+              update: (ctx, auth, prev) {
+                return UserEvent(
+                    auth.token, prev == null ? [] : prev.events);
               })
         ],
         child: Consumer<Authenicate>(
