@@ -106,12 +106,9 @@ class _AddEventState extends State<AddEvent> {
 
   Widget _buildDatePicker(Function onChange, DateTime initial) {
     return CupertinoDatePicker(
-      mode: CupertinoDatePickerMode.date,
-      onDateTimeChanged: onChange,
-      initialDateTime: initial,
-      minimumDate: DateTime.now().subtract(Duration(days: 60)),
-      maximumDate: DateTime.now().add(Duration(days: 60)),
-    );
+        mode: CupertinoDatePickerMode.date,
+        onDateTimeChanged: onChange,
+        initialDateTime: initial);
   }
 
   Widget _buildNamePage() {
