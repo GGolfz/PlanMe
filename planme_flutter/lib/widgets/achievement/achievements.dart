@@ -30,15 +30,12 @@ class _AchievementsState extends State<Achievements> {
   Widget build(BuildContext context) {
     return Consumer<UserAchievement>(
       builder: (ctx, ach, child) {
-        return ListView(
+        return Column(
           children: [
             ...ach.achievements.map((element) {
               return AchievementGroups(element);
             })
           ],
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          addAutomaticKeepAlives: false,
         );
       },
     );

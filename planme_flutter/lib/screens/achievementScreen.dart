@@ -11,98 +11,97 @@ class AchievementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            ShowStar('300'),
-            Text(
-              'Achievements',
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-                color: titleColorBlack,
-              ),
+    return Container(
+      child: Column(
+        children: [
+          ShowStar('300'),
+          Text(
+            'Achievements',
+            style: TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+              color: titleColorBlack,
             ),
-            Achievements()
-            // Keep it as your memory or delete if you want and also allTab, valentineTab too.
-            // ListView(
-            //   children: <Widget>[
-            //     Row(
-            //       children: [
-            //         Container(
-            //           padding: EdgeInsets.fromLTRB(15.0, 15.0, 10.0, 15.0),
-            //           child: Text(
-            //             'Christmas Collection',
-            //             style: TextStyle(
-            //               fontSize: 20.0,
-            //               fontWeight: FontWeight.bold,
-            //               color: titleColorBlack,
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       mainAxisSize: MainAxisSize.max,
-            //       children: [
-            //         Expanded(
-            //           child: Container(
-            //               width: 200.0,
-            //               height: 250.0,
-            //               margin: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
-            //               padding: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
-            //               decoration: BoxDecoration(
-            //                 color: appbarColor,
-            //                 borderRadius: BorderRadius.all(
-            //                   Radius.circular(18),
-            //                 ),
-            //               ),
-            //               child: AllTab()),
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         Container(
-            //           padding: EdgeInsets.fromLTRB(15.0, 8.0, 10.0, 15.0),
-            //           child: Text(
-            //             'Valentine Collection',
-            //             style: TextStyle(
-            //               fontSize: 20.0,
-            //               fontWeight: FontWeight.bold,
-            //               color: titleColorBlack,
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       mainAxisSize: MainAxisSize.max,
-            //       children: [
-            //         Expanded(
-            //           child: Container(
-            //               width: 200.0,
-            //               height: 250.0,
-            //               margin: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 30.0),
-            //               padding: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
-            //               decoration: BoxDecoration(
-            //                 color: appbarColor,
-            //                 borderRadius: BorderRadius.all(
-            //                   Radius.circular(18),
-            //                 ),
-            //               ),
-            //               child: ValentineTab()),
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            //   shrinkWrap: true,
-            //   scrollDirection: Axis.vertical,
-            //   addAutomaticKeepAlives: false,
-            // ),
-          ],
-        ),
+          ),
+          SizedBox(height: 12),
+          Expanded(child: SingleChildScrollView(child: Achievements()))
+          // Keep it as your memory or delete if you want and also allTab, valentineTab too.
+          // ListView(
+          //   children: <Widget>[
+          //     Row(
+          //       children: [
+          //         Container(
+          //           padding: EdgeInsets.fromLTRB(15.0, 15.0, 10.0, 15.0),
+          //           child: Text(
+          //             'Christmas Collection',
+          //             style: TextStyle(
+          //               fontSize: 20.0,
+          //               fontWeight: FontWeight.bold,
+          //               color: titleColorBlack,
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //     Row(
+          //       mainAxisSize: MainAxisSize.max,
+          //       children: [
+          //         Expanded(
+          //           child: Container(
+          //               width: 200.0,
+          //               height: 250.0,
+          //               margin: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
+          //               padding: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
+          //               decoration: BoxDecoration(
+          //                 color: appbarColor,
+          //                 borderRadius: BorderRadius.all(
+          //                   Radius.circular(18),
+          //                 ),
+          //               ),
+          //               child: AllTab()),
+          //         ),
+          //       ],
+          //     ),
+          //     Row(
+          //       children: [
+          //         Container(
+          //           padding: EdgeInsets.fromLTRB(15.0, 8.0, 10.0, 15.0),
+          //           child: Text(
+          //             'Valentine Collection',
+          //             style: TextStyle(
+          //               fontSize: 20.0,
+          //               fontWeight: FontWeight.bold,
+          //               color: titleColorBlack,
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //     Row(
+          //       mainAxisSize: MainAxisSize.max,
+          //       children: [
+          //         Expanded(
+          //           child: Container(
+          //               width: 200.0,
+          //               height: 250.0,
+          //               margin: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 30.0),
+          //               padding: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
+          //               decoration: BoxDecoration(
+          //                 color: appbarColor,
+          //                 borderRadius: BorderRadius.all(
+          //                   Radius.circular(18),
+          //                 ),
+          //               ),
+          //               child: ValentineTab()),
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          //   shrinkWrap: true,
+          //   scrollDirection: Axis.vertical,
+          //   addAutomaticKeepAlives: false,
+          // ),
+        ],
       ),
     );
   }

@@ -63,7 +63,15 @@ class UserAchievement with ChangeNotifier {
         Achievement("Star", "level 4", "star.png", false),
         Achievement("Love Letter", "level 5", "love-letter.png", false),
         Achievement("Candy Cane", "level 6", "candy-cane.png", false)
-      ])
+      ]),
+      AchievementGroup("Christmas Collection", [
+        Achievement("Candy Cane", "level 1", "candy-cane.png", true),
+        Achievement("Gingerbread Man", "level 2", "gingerbread-man.png", false),
+        Achievement(
+            "Christmas Wreath", "level 3", "christmas-wreath.png", false),
+        Achievement("Star", "level 4", "star.png", false),
+        Achievement("Candy Cane", "level 5", "candy-cane.png", false)
+      ]),
     ];
     // notifyListeners();
   }
