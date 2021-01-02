@@ -8,9 +8,11 @@ import 'calendarScreen.dart';
 import 'timerScreen.dart';
 import 'reportScreen.dart';
 import 'achievementScreen.dart';
+import 'categoryScreen.dart';
 import 'errorScreen.dart';
 import '../widgets/layout/appBar.dart';
 import '../widgets/layout/bottomNavigator.dart';
+import '../widgets/category/category_edit.dart';
 
 class ScreenRendering extends StatefulWidget {
   @override
@@ -29,6 +31,8 @@ class _ScreenRenderingState extends State<ScreenRendering> {
         return ReportScreen();
       case achievementRoute:
         return AchievementScreen();
+      case categoryRoute:
+        return CategoryScreen();
       default:
         return ErrorScreen();
     }
@@ -50,6 +54,22 @@ class _ScreenRenderingState extends State<ScreenRendering> {
             size: 32,
           ));
     }
+    if (currentRoute == categoryRoute) {
+      return FloatingActionButton(
+          backgroundColor: iconColor,
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (ctx) {
+                  return CategoryEdit(null, "add");
+                });
+          },
+          child: Icon(
+            Icons.add,
+            size: 32,
+          ));
+    }
+
     return null;
   }
 

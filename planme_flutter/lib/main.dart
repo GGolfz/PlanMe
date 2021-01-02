@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart';
+import 'package:planme_flutter/providers/categoryProvider.dart';
 import 'package:planme_flutter/screens/screenRendering.dart';
 import 'screens/loginScreen.dart';
 
@@ -17,7 +18,13 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (ctx) => Authenicate(),
-          )
+          ),
+          ChangeNotifierProxyProvider<Authenicate, UserCategory>(
+              create: (ctx) => UserCategory(null, []),
+              update: (ctx, auth, prev) {
+                return UserCategory(
+                    auth.token, prev == null ? [] : prev.category);
+              })
         ],
         child: Consumer<Authenicate>(
           builder: (ctx, auth, _) => MaterialApp(
@@ -26,7 +33,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            home: auth.authInfo.isAuth
+            home: auth.isAuth
                 ? ScreenRendering()
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),

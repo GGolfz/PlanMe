@@ -32,7 +32,7 @@ const landingButtonText = TextStyle(
     fontWeight: FontWeight.w600,
     color: deepWhite);
 const titleText =
-    TextStyle(fontFamily: 'Nunito', fontSize: 22, fontWeight: FontWeight.bold);
+    TextStyle(fontFamily: 'Nunito', fontSize: 25, fontWeight: FontWeight.bold);
 const subTitleText =
     TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600);
 const normalText =

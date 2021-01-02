@@ -31,19 +31,19 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
         {
           "Name": "A01",
           "Category": "Matematics",
-          "ColorCode": "01",
+          "ColorCode": "A01",
           "Finish": true
         },
         {
           "Name": "A02",
           "Category": "Science",
-          "ColorCode": "02",
+          "ColorCode": "A02",
           "Finish": false
         },
         {
           "Name": "A03",
           "Category": "Computer",
-          "ColorCode": "03",
+          "ColorCode": "A03",
           "Finish": false
         },
       ],
@@ -264,8 +264,8 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
             direction: DismissDirection.endToStart,
             child: CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
-              checkColor: getColor(event["ColorCode"].toString()),
-              activeColor: getColor(event["ColorCode"].toString()),
+              checkColor: categoryColor[event["ColorCode"].toString()],
+              activeColor: categoryColor[event["ColorCode"].toString()],
               value: event["Finish"].toString() == "true" ? true : false,
               title: Text(event["Name"].toString()),
               subtitle: Text(event["Category"].toString()),

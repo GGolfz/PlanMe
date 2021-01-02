@@ -46,6 +46,8 @@ def login(data):
             if bcrypt.checkpw(password,row[0][0].encode('utf-8')):
                 cur.execute("SELECT uid FROM users WHERE email = '"+email+"'")
                 row1 =cur.fetchone()
+                cur.close()
+                conn.close()
                 token = jwt.encode({'uid': row1[0]},secret, algorithm='HS256')
                 returned_data ={
                     "success":"true",
@@ -57,3 +59,29 @@ def login(data):
             return Response("{\"error\":{\"email\":\"\",\"password\":\"Invalid email or password\"}}", mimetype="application/json", status=404)
     except:
         return Response("{\"error\":\"true\"}", mimetype="application/json", status=400)
+
+def isauth(data):
+    try:
+        token = data['token']
+        decoded = jwt.decode(token, secret, algorithms=["HS256"])
+        uid = decoded['uid']
+        conn = getConntection()
+        cur = conn.cursor()
+        cur.execute("SELECT uid FROM users WHERE uid='"+uid+"'")       
+        row = cur.fetchall()
+        cur.close()
+        conn.close()
+        if len(row) == 0:
+            return Response("{\"error\":\"true\"}", mimetype="application/json", status=404)
+        return Response(json.dumps(decoded), mimetype="application/json", status=200)
+    except:
+        return Response("{\"error\":\"true\"}", mimetype="application/json", status=400)
+
+def extractJWT(token):
+    try:
+        decoded = jwt.decode(token,secret,algorithms=["HS256"])
+        uid = decoded['uid']
+        return uid
+    except:
+        raise Exception("Unauthorize")
+        return ''

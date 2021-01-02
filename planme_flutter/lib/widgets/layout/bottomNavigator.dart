@@ -9,7 +9,8 @@ class PlanMeBottomNagivatorBar extends StatelessWidget {
     {'src': 'calendar.png', 'route': calendarRoute},
     {'src': 'clock.png', 'route': timerRoute},
     {'src': 'chart.png', 'route': reportRoute},
-    {'src': 'achieve.png', 'route': achievementRoute}
+    {'src': 'achieve.png', 'route': achievementRoute},
+    {'src': 'category.png', 'route': categoryRoute}
   ];
 
   @override
