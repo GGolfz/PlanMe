@@ -1,6 +1,6 @@
 from flask import Response, request
 from flask_restful import Resource,reqparse
-from controller.category import getCategory,createCategory,changeCategoryName,changeCategoryColor
+from controller.category import getCategory,createCategory,editCategory,deleteCategory
 class Category(Resource):
     def get(self):
         parser = reqparse.RequestParser()
@@ -14,21 +14,17 @@ class Category(Resource):
         parser.add_argument('color_code',type=str)
         data=parser.parse_args()
         return createCategory(data)
-
-class CategoryName(Resource):
-    def post(self):
+    def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('token',type=str)
         parser.add_argument('cid',type=str)
         parser.add_argument('category_name',type=str)
+        parser.add_argument('color_code',type=str)
         data=parser.parse_args()
-        return changeCategoryName(data)
-
-class CategoryColor(Resource):
-    def post(self):
+        return editCategory(data)
+    def delete(self):
         parser = reqparse.RequestParser()
         parser.add_argument('token',type=str)
         parser.add_argument('cid',type=str)
-        parser.add_argument('color_code',type=str)
         data=parser.parse_args()
-        return changeCategoryColor(data)
+        return deleteCategory(data)

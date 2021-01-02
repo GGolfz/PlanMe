@@ -32,27 +32,29 @@ def createCategory(data):
         return Response(json.dumps({"success":"true"}), mimetype="application/json", status=201)
     except:
         return Response(json.dumps({"error":"true"}), mimetype="application/json", status=400)
-def changeCategoryName(data):
+def editCategory(data):
     try:
         uid = extractJWT(data['token'])
         conn = getConntection()
         cur = conn.cursor()
-        cur.execute("UPDATE category SET category_name = '"+data['category_name']+"' WHERE cid = '"+data["cid"]+"'")
+        cur.execute("UPDATE category SET category_name = '"+data['category_name']+"',color_code = '"+data['color_code']+"' WHERE cid = '"+data["cid"]+"'")
         conn.commit()
         cur.close()
         conn.close()
-        return Response(json.dumps({"success":"true"}), mimetype="application/json", status=201)
+        return Response(json.dumps({"success":"true"}), mimetype="application/json", status=200)
     except:
         return Response(json.dumps({"error":"true"}), mimetype="application/json", status=400)
-def changeCategoryColor(data):
+def deleteCategory(data):
     try:
         uid = extractJWT(data['token'])
         conn = getConntection()
         cur = conn.cursor()
-        cur.execute("UPDATE category SET color_code = '"+data['color_code']+"' WHERE cid = '"+data["cid"]+"'")
+        cur.execute("DELETE FROM user_category WHERE uid = '"+uid+"' AND cid = '"+data['cid']+"'")
+        conn.commit()
+        cur.execute("DELETE FROM category WHERE cid ='"+data['cid']+"'")
         conn.commit()
         cur.close()
-        conn.close()
-        return Response(json.dumps({"success":"true"}), mimetype="application/json", status=201)
+        conn.close() 
+        return Response(json.dumps({"success":"true"}), mimetype="application/json", status=200)
     except:
         return Response(json.dumps({"error":"true"}), mimetype="application/json", status=400)
