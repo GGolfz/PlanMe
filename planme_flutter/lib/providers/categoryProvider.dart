@@ -34,8 +34,7 @@ class UserCategory with ChangeNotifier {
   UserCategory(this.token, this.category);
 
   Future<void> fetchData() async {
-    final response = await Dio()
-        .get('http://localhost:5000' + '/api/category?token=' + token);
+    final response = await Dio().get(baseURL + '/api/category?token=' + token);
     List<Category> cat = [];
     response.data.toList().forEach((el) =>
         cat.add(Category(el["cid"], el["category_name"], el["color_code"])));
@@ -45,7 +44,7 @@ class UserCategory with ChangeNotifier {
 
   Future<void> createCategory(String categoryName, String colorCode) async {
     try {
-      await Dio().post('http://localhost:5000' + '/api/category', data: {
+      await Dio().post(baseURL + '/api/category', data: {
         "token": token,
         "category_name": categoryName,
         "color_code": colorCode
@@ -60,7 +59,7 @@ class UserCategory with ChangeNotifier {
   Future<void> editCategory(
       String categoryId, String categoryName, String colorCode) async {
     try {
-      await Dio().put('http://localhost:5000' + '/api/category', data: {
+      await Dio().put(baseURL + '/api/category', data: {
         "token": token,
         "cid": categoryId,
         "category_name": categoryName,
@@ -75,7 +74,7 @@ class UserCategory with ChangeNotifier {
 
   Future<void> deleteCategory(String categoryId) async {
     try {
-      await Dio().delete('http://localhost:5000' + '/api/category', data: {
+      await Dio().delete(baseURL + '/api/category', data: {
         "token": token,
         "cid": categoryId,
       });
