@@ -22,8 +22,8 @@ class UserEvent with ChangeNotifier {
     try {
       Map<DateTime, List<Event>> temp = {};
       this.selected = date;
-      final response = await Dio().get('http://localhost:5000/api' +
-          '/event?token=$token&y=${date.year}&m=${date.month}');
+      final response = await Dio()
+          .get(baseURL + '/event?token=$token&y=${date.year}&m=${date.month}');
       response.data.toList().forEach((e) {
         List<String> d = e['event_date'].split('-');
         DateTime date =
@@ -59,7 +59,7 @@ class UserEvent with ChangeNotifier {
 
   Future<void> toggleEvent(String event_id, bool value) async {
     try {
-      await Dio().put('http://localhost:5000/api' + '/event',
+      await Dio().put(baseURL + '/event',
           data: {"event_id": event_id, "token": token, "finish": value});
       fetchData(selected);
     } catch (error) {}
@@ -69,7 +69,7 @@ class UserEvent with ChangeNotifier {
 
   Future<void> deleteEvent(String event_id) async {
     try {
-      await Dio().delete('http://localhost:5000/api' + '/event',
+      await Dio().delete(baseURL + '/event',
           data: {"event_id": event_id, "token": token});
     } catch (error) {}
     await fetchData(selected);
