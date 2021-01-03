@@ -10,7 +10,7 @@ def getEvent(data):
         uid = extractJWT(data['token'])
         conn = getConntection()
         cur = conn.cursor()
-        cur.execute("SELECT event.event_id as event_id,event_date,event_name,finish,category_name FROM event JOIN category ON event.cid = category.cid JOIN user_event ON event.event_id = user_event.event_id WHERE user_event.uid = '"+uid+"' AND EXTRACT(year from event_date) = '"+data["y"]+"' AND EXTRACT(month from event_date) = '"+data["m"]+"'")
+        cur.execute("SELECT event.event_id as event_id,event_date,event_name,finish,category_name as category,color_code FROM event JOIN category ON event.cid = category.cid JOIN user_event ON event.event_id = user_event.event_id WHERE user_event.uid = '"+uid+"' AND EXTRACT(year from event_date) = '"+data["y"]+"' AND EXTRACT(month from event_date) = '"+data["m"]+"'")
         row = cur.fetchall()
         arr = []
         for i in row:
@@ -19,7 +19,8 @@ def getEvent(data):
                 "event_name" : i[2],
                 "event_date" : i[1],
                 "category": i[4],
-                "finish": i[3]
+                "finish": i[3],
+                "color_code": i[5]
             }
             arr.append(d)
         cur.close()
