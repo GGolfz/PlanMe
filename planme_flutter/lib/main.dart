@@ -34,10 +34,9 @@ class MyApp extends StatelessWidget {
                     auth.token, prev == null ? [] : prev.achievements);
               }),
           ChangeNotifierProxyProvider<Authenicate, UserEvent>(
-              create: (ctx) => UserEvent(null,[]),
+              create: (ctx) => UserEvent(null, {}),
               update: (ctx, auth, prev) {
-                return UserEvent(
-                    auth.token, prev == null ? [] : prev.events);
+                return UserEvent(auth.token, prev == null ? [] : prev.events);
               })
         ],
         child: Consumer<Authenicate>(

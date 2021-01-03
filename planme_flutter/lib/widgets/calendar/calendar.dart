@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
+import 'package:planme_flutter/providers/eventProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:planme_flutter/configs/color.dart';
@@ -18,8 +19,6 @@ class PlanMeCalendar extends StatefulWidget {
 
 class _PlanMeCalendarState extends State<PlanMeCalendar>
     with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
-  List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
   DateTime _selectedDay;
@@ -28,32 +27,10 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
   void didChangeDependencies() {
     if (isInit) {
       isInit = false;
-      _selectedDay = DateTime.now();
-
-      _events = {
-        _selectedDay: [
-          {
-            "Name": "A01",
-            "Category": "Matematics",
-            "ColorCode": "A01",
-            "Finish": true
-          },
-          {
-            "Name": "A02",
-            "Category": "Science",
-            "ColorCode": "A02",
-            "Finish": false
-          },
-          {
-            "Name": "A03",
-            "Category": "Computer",
-            "ColorCode": "A03",
-            "Finish": false
-          },
-        ],
-      };
-
-      _selectedEvents = _events[_selectedDay] ?? [];
+      DateTime date = DateTime.now();
+      _selectedDay = DateTime(date.year, date.month, date.day);
+      Provider.of<UserCategory>(context, listen: false).fetchData();
+      Provider.of<UserEvent>(context, listen: false).fetchData(_selectedDay);
       _calendarController = CalendarController();
 
       _animationController = AnimationController(
@@ -62,7 +39,6 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
       );
 
       _animationController.forward();
-      Provider.of<UserCategory>(context).fetchData();
     }
     super.didChangeDependencies();
   }
@@ -79,18 +55,25 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events, List holidays) {
+  Future<void> fetchData() async {
+    Provider.of<UserEvent>(context).fetchData(_selectedDay);
+  }
+
+  Future<void> _onDaySelected(DateTime day, List events, List holidays) async {
     setState(() {
-      _selectedEvents = events;
-      _selectedDay = day;
+      _selectedDay = DateTime(day.year, day.month, day.day);
     });
   }
 
   void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {}
+      DateTime first, DateTime last, CalendarFormat format) {
+    fetchData();
+  }
 
   void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {}
+      DateTime first, DateTime last, CalendarFormat format) {
+    fetchData();
+  }
 
   bool isSameDate(DateTime first, DateTime second) {
     return first.year == second.year &&
@@ -105,25 +88,27 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-      _buildTableCalendarWithBuilders(),
-      const SizedBox(height: 8.0),
-      Container(
-          padding: EdgeInsets.only(left: 25),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            formatDate(_selectedDay),
-            style: titleText,
-          )),
-      const SizedBox(height: 8.0),
-      Expanded(child: _buildEventList()),
-    ]);
+    return Consumer<UserEvent>(builder: (ctx, events, child) {
+      return Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+        _buildTableCalendarWithBuilders(events.events),
+        const SizedBox(height: 8.0),
+        Container(
+            padding: EdgeInsets.only(left: 25),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              formatDate(_selectedDay),
+              style: titleText,
+            )),
+        const SizedBox(height: 8.0),
+        Expanded(child: _buildEventList(events.events[_selectedDay])),
+      ]);
+    });
   }
 
-  Widget _buildTableCalendarWithBuilders() {
+  Widget _buildTableCalendarWithBuilders(Map<DateTime, List<Event>> events) {
     return TableCalendar(
       calendarController: _calendarController,
-      events: _events,
+      events: events,
       initialCalendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       calendarStyle: CalendarStyle(
@@ -228,11 +213,11 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
     );
   }
 
-  Widget _buildEventList() {
+  Widget _buildEventList(List<Event> events) {
     return ListView.separated(
       separatorBuilder: (ctx, index) => Divider(),
       itemBuilder: (ctx, index) {
-        final event = _selectedEvents[index];
+        final event = events[index];
         return Dismissible(
             key: ValueKey(index),
             background: Container(
@@ -241,7 +226,7 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.only(right: 20)),
             onDismissed: (direction) {
-              print("Deleted");
+              Provider.of<UserEvent>(context,listen: false).deleteEvent(event.event_id);
             },
             confirmDismiss: (direction) {
               return showDialog(
@@ -271,19 +256,21 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
             direction: DismissDirection.endToStart,
             child: CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
-              checkColor: categoryColor[event["ColorCode"].toString()],
-              activeColor: categoryColor[event["ColorCode"].toString()],
-              value: event["Finish"].toString() == "true" ? true : false,
-              title: Text(event["Name"].toString()),
-              subtitle: Text(event["Category"].toString()),
+              checkColor: categoryColor[event.color_code.toString()],
+              activeColor: categoryColor[event.color_code.toString()],
+              value: event.finish.toString() == "true" ? true : false,
+              title: Text(event.event_name.toString()),
+              subtitle: Text(event.category.toString()),
               onChanged: (bool value) {
                 setState(() {
-                  event["Finish"] = value;
+                  event.finish = value;
                 });
+                Provider.of<UserEvent>(context, listen: false)
+                    .toggleEvent(event.event_id, value);
               },
             ));
       },
-      itemCount: _selectedEvents.length,
+      itemCount: events == null ? 0 : events.length,
     );
   }
 }
