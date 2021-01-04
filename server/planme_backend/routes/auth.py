@@ -16,7 +16,7 @@ class Login(Resource):
         data=parser.parse_args()
         return login(data)
 class isAuth(Resource):
-    def post(self):
+    def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('token',type=str)
         data=parser.parse_args()
