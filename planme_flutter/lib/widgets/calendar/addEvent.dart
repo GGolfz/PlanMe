@@ -275,9 +275,9 @@ class _AddEventState extends State<AddEvent> {
 }
 
 class CategorySelector extends StatefulWidget {
-  Function onChange;
-  Category initial;
-  List<Category> category;
+  final Function onChange;
+  final Category initial;
+  final List<Category> category;
   CategorySelector(this.onChange, this.initial, this.category);
   @override
   _CategorySelectorState createState() => _CategorySelectorState();

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:planme_flutter/widgets/achievement/achievement_groups.dart';
 
 class Achievement {
   String _img;
@@ -26,14 +25,14 @@ class Achievement {
 
 class AchievementGroup {
   String _name;
-  List<Achievement> _achievement_list;
-  AchievementGroup(this._name, this._achievement_list);
+  List<Achievement> _achievementList;
+  AchievementGroup(this._name, this._achievementList);
   String get name {
     return this._name;
   }
 
   List<Achievement> get achievements {
-    return this._achievement_list;
+    return this._achievementList;
   }
 }
 

@@ -12,7 +12,7 @@ class UserInfo {
 }
 
 class Authenicate with ChangeNotifier {
-  String _token = null;
+  String _token;
   String get token {
     return _token;
   }
@@ -29,6 +29,12 @@ class Authenicate with ChangeNotifier {
     final extractedUserData = prefs.getString('userData');
     _token = json.decode(extractedUserData)['token'];
     notifyListeners();
+    try {
+      await Dio().get(baseURL + '/auth/isAuth?token=$_token');
+    } catch (error) {
+      prefs.clear();
+      _token = null;
+    }
     return true;
   }
 

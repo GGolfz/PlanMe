@@ -3,13 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:planme_flutter/configs/api.dart';
 
 class Event {
-  String event_id;
-  String event_name;
-  DateTime event_date;
-  String color_code;
+  String eventId;
+  String eventName;
+  DateTime eventDate;
+  String colorCode;
   String category;
   bool finish;
-  Event(this.event_id, this.event_name, this.event_date, this.color_code,
+  Event(this.eventId, this.eventName, this.eventDate, this.colorCode,
       this.category, this.finish);
 }
 
@@ -57,20 +57,20 @@ class UserEvent with ChangeNotifier {
     return;
   }
 
-  Future<void> toggleEvent(String event_id, bool value) async {
+  Future<void> toggleEvent(String eventId, bool value) async {
     try {
       await Dio().put(baseURL + '/event',
-          data: {"event_id": event_id, "token": token, "finish": value});
+          data: {"event_id": eventId, "token": token, "finish": value});
       fetchData(selected);
     } catch (error) {}
     await fetchData(selected);
     return;
   }
 
-  Future<void> deleteEvent(String event_id) async {
+  Future<void> deleteEvent(String eventId) async {
     try {
       await Dio().delete(baseURL + '/event',
-          data: {"event_id": event_id, "token": token});
+          data: {"event_id": eventId, "token": token});
     } catch (error) {}
     await fetchData(selected);
     return;

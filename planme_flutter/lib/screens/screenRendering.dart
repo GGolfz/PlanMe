@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:planme_flutter/configs/route.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/widgets/calendar/addEvent.dart';

@@ -226,7 +226,8 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.only(right: 20)),
             onDismissed: (direction) {
-              Provider.of<UserEvent>(context,listen: false).deleteEvent(event.event_id);
+              Provider.of<UserEvent>(context, listen: false)
+                  .deleteEvent(event.eventId);
             },
             confirmDismiss: (direction) {
               return showDialog(
@@ -256,17 +257,17 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
             direction: DismissDirection.endToStart,
             child: CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
-              checkColor: categoryColor[event.color_code.toString()],
-              activeColor: categoryColor[event.color_code.toString()],
+              checkColor: categoryColor[event.colorCode.toString()],
+              activeColor: categoryColor[event.colorCode.toString()],
               value: event.finish.toString() == "true" ? true : false,
-              title: Text(event.event_name.toString()),
+              title: Text(event.eventName.toString()),
               subtitle: Text(event.category.toString()),
               onChanged: (bool value) {
                 setState(() {
                   event.finish = value;
                 });
                 Provider.of<UserEvent>(context, listen: false)
-                    .toggleEvent(event.event_id, value);
+                    .toggleEvent(event.eventId, value);
               },
             ));
       },

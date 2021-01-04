@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:planme_flutter/configs/color.dart';
 
 class ShowStar extends StatelessWidget {
-  String amount;
+  final String amount;
   ShowStar(this.amount);
   @override
   Widget build(BuildContext context) {

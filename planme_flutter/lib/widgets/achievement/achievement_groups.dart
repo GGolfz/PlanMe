@@ -4,7 +4,7 @@ import 'package:planme_flutter/providers/achievementProvider.dart';
 import 'package:planme_flutter/configs/color.dart';
 
 class AchievementGroups extends StatelessWidget {
-  AchievementGroup achievementGroup;
+  final AchievementGroup achievementGroup;
   AchievementGroups(this.achievementGroup);
   @override
   Widget build(BuildContext context) {
