@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart';
-import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:planme_flutter/providers/achievementProvider.dart';
 
 class AchievementItem extends StatelessWidget {
-  Achievement achievement;
+  final Achievement achievement;
   AchievementItem(this.achievement);
   @override
   Widget build(BuildContext context) {

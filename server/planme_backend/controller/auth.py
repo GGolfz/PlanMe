@@ -4,6 +4,7 @@ from service.database_connector import getConntection
 import psycopg2
 import jwt
 import json
+from datetime import date
 secret = 'jwtsecret'
 def register(data):
     try:
@@ -20,6 +21,9 @@ def register(data):
             cur.execute("SELECT uid FROM users WHERE email = '"+email+"'")
             row =cur.fetchone()
             token = jwt.encode({'uid': row[0]},secret, algorithm='HS256')
+            today = date.today()
+            cur.execute("INSERT INTO login_log(uid,date) VALUES('"+row[0]+"','"+str(today)+"')")
+            conn.commit()
         else:
             return Response("{\"error\":{\"email\":\"Email is already used\",\"password\":\"\"}}", mimetype="application/json", status=400)
         cur.close()
@@ -46,13 +50,19 @@ def login(data):
             if bcrypt.checkpw(password,row[0][0].encode('utf-8')):
                 cur.execute("SELECT uid FROM users WHERE email = '"+email+"'")
                 row1 =cur.fetchone()
-                cur.close()
-                conn.close()
                 token = jwt.encode({'uid': row1[0]},secret, algorithm='HS256')
                 returned_data ={
                     "success":"true",
                     "token":token
                 }
+                today = date.today()
+                cur.execute("SELECT date FROM login_log WHERE uid = '"+row1[0]+"' AND date = '"+str(today)+"'")
+                row2 = cur.fetchall()
+                if len(row2) == 0:
+                    cur.execute("INSERT INTO login_log(uid,date) VALUES('"+row1[0]+"','"+str(today)+"')")
+                    conn.commit()
+                cur.close()
+                conn.close()
                 return Response(json.dumps(returned_data), mimetype="application/json", status=201)
             return Response("{\"error\":{\"email\":\"\",\"password\":\"Invalid email or password\"}}", mimetype="application/json", status=404)
         except:
@@ -69,6 +79,12 @@ def isauth(data):
         cur = conn.cursor()
         cur.execute("SELECT uid FROM users WHERE uid='"+uid+"'")       
         row = cur.fetchall()
+        today = date.today()
+        cur.execute("SELECT date FROM login_log WHERE uid = '"+uid+"' AND date = '"+str(today)+"'")
+        row2 = cur.fetchall()
+        if len(row2) == 0:
+            cur.execute("INSERT INTO login_log(uid,date) VALUES('"+uid+"','"+str(today)+"')")
+            conn.commit()
         cur.close()
         conn.close()
         if len(row) == 0:

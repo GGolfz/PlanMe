@@ -3,6 +3,7 @@ import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/providers/achievementProvider.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
 import 'package:planme_flutter/providers/eventProvider.dart';
+import 'package:planme_flutter/providers/timerProvider.dart';
 import 'package:planme_flutter/screens/screenRendering.dart';
 import 'screens/loginScreen.dart';
 
@@ -34,11 +35,15 @@ class MyApp extends StatelessWidget {
                     auth.token, prev == null ? [] : prev.achievements);
               }),
           ChangeNotifierProxyProvider<Authenicate, UserEvent>(
-              create: (ctx) => UserEvent(null,[]),
+              create: (ctx) => UserEvent(null, {}),
               update: (ctx, auth, prev) {
-                return UserEvent(
-                    auth.token, prev == null ? [] : prev.events);
-              })
+                return UserEvent(auth.token, prev == null ? [] : prev.events);
+              }),
+          ChangeNotifierProxyProvider<Authenicate, Timer>(
+              create: (ctx) => Timer(null),
+              update: (ctx, auth, prev) {
+                return Timer(auth.token);
+              }),
         ],
         child: Consumer<Authenicate>(
           builder: (ctx, auth, _) => MaterialApp(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart' show categoryColor;
 import 'package:dio/dio.dart';
 import 'package:planme_flutter/configs/api.dart';
-import 'dart:convert';
 
 class Category {
   final String _categoryId;
