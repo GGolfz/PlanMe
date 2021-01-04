@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
+import 'package:provider/provider.dart';
+import 'package:planme_flutter/providers/categoryProvider.dart';
+import 'package:planme_flutter/providers/timerProvider.dart';
 
 class CountdownTimer extends StatefulWidget {
   @override
@@ -14,6 +17,22 @@ class _CountdownTimerState extends State<CountdownTimer> {
   Duration _duration = Duration(minutes: 25);
   bool isStart = false;
   Duration _tempDuration;
+  Category _category;
+  Category _tempCategory;
+  List<Category> categoryList;
+  var isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (isInit) {
+      Provider.of<UserCategory>(context).fetchData();
+      categoryList = Provider.of<UserCategory>(context).category;
+      _category = categoryList[0];
+      isInit = false;
+    }
+    super.didChangeDependencies();
+  }
+
   void _startTimer() {
     setState(() {
       isStart = true;
@@ -29,16 +48,57 @@ class _CountdownTimerState extends State<CountdownTimer> {
     setState(() {
       isStart = false;
     });
-    print("Oh No it fail !!!");
-    // Handle Fail Here !
   }
 
   void _onFinish() {
     setState(() {
       isStart = false;
     });
-    print("Yeah Finish !!!");
-    // Handle Success Here !
+    Provider.of<Timer>(context, listen: false).saveTimer(_category, _duration);
+  }
+
+  void _editCategory(List<Category> category) {
+    showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext ctx) {
+          return Container(
+              height: 300,
+              padding: const EdgeInsets.only(top: 6.0, left: 6.0, right: 6.0),
+              color: CupertinoColors.white,
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CupertinoButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_tempCategory != null) {
+                            _category = _tempCategory;
+                            _tempCategory = null;
+                          }
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Save"),
+                    ),
+                  ],
+                ),
+                Expanded(
+                    child: CupertinoPicker(
+                  itemExtent: 48,
+                  children: [
+                    ...category
+                        .map((e) => Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 4),
+                            child: Text(e.name)))
+                        .toList()
+                  ],
+                  onSelectedItemChanged: (value) {
+                    _tempCategory = category[value];
+                  },
+                ))
+              ]));
+        });
   }
 
   void _editDuration() {
@@ -134,7 +194,27 @@ class _CountdownTimerState extends State<CountdownTimer> {
                       SizedBox(width: 10),
                       renderIcon(36, Icon(Icons.edit), _editDuration),
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    GestureDetector(
+                      child: Wrap(children: [
+                        Text(
+                          _category.name,
+                          style: subTitleText,
+                        ),
+                        SizedBox(width: 6),
+                        Icon(
+                          Icons.edit,
+                          size: 24,
+                          color: subTitleColorBlack,
+                        )
+                      ]),
+                      onTap: () => {_editCategory(categoryList)},
+                    )
+                  ]),
                 ],
               ));
   }
