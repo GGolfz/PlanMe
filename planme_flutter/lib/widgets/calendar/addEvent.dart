@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
+import 'package:planme_flutter/providers/categoryProvider.dart';
+import 'package:planme_flutter/providers/eventProvider.dart';
+import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
   @override
@@ -11,15 +14,29 @@ enum DialogPage { main, name, category, date }
 
 class _AddEventState extends State<AddEvent> {
   String _eventName;
-  String _eventCategory;
-  String _eventDate;
+  List<Category> categoryList;
+  Category _eventCategory;
+  DateTime _eventDate;
   DialogPage _currentPage = DialogPage.main;
+  var isInit = true;
+
   @override
-  void initState() {
-    _eventName = '';
-    _eventCategory = '';
-    _eventDate = '';
-    super.initState();
+  void didChangeDependencies() {
+    if (isInit) {
+      Provider.of<UserCategory>(context).fetchData();
+      categoryList = Provider.of<UserCategory>(context).category;
+      _eventName = '';
+      _eventCategory = categoryList[0];
+      _eventDate = DateTime.now();
+      isInit = false;
+    }
+    super.didChangeDependencies();
+  }
+
+  Future<void> createEvent() async {
+    Provider.of<UserEvent>(context, listen: false)
+        .createEvent(_eventName, _eventCategory.id, _eventDate);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -87,6 +104,13 @@ class _AddEventState extends State<AddEvent> {
     );
   }
 
+  Widget _buildDatePicker(Function onChange, DateTime initial) {
+    return CupertinoDatePicker(
+        mode: CupertinoDatePickerMode.date,
+        onDateTimeChanged: onChange,
+        initialDateTime: initial);
+  }
+
   Widget _buildNamePage() {
     String tempVal = _eventName;
     String title = "Event Name";
@@ -108,7 +132,8 @@ class _AddEventState extends State<AddEvent> {
   }
 
   Widget _buildCategoryPage() {
-    String tempVal = _eventCategory;
+    Category tempVal =
+        _eventCategory == null ? categoryList[0] : _eventCategory;
     String title = "Event Category";
     return Column(
       children: [
@@ -120,15 +145,15 @@ class _AddEventState extends State<AddEvent> {
         SizedBox(
           height: 10,
         ),
-        _buildTextField((value) {
+        CategorySelector((value) {
           tempVal = value;
-        }, title, tempVal)
+        }, tempVal, categoryList)
       ],
     );
   }
 
   Widget _buildDatePage() {
-    String tempVal = _eventDate;
+    DateTime tempVal = _eventDate;
     String title = "Event Date";
     return Column(
       children: [
@@ -140,9 +165,12 @@ class _AddEventState extends State<AddEvent> {
         SizedBox(
           height: 10,
         ),
-        _buildTextField((value) {
-          tempVal = value;
-        }, title, tempVal)
+        Container(
+          height: 180,
+          child: _buildDatePicker((value) {
+            tempVal = value;
+          }, tempVal),
+        )
       ],
     );
   }
@@ -196,7 +224,7 @@ class _AddEventState extends State<AddEvent> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 5,
                       children: [
-                        Text(_eventCategory),
+                        Text(_eventCategory.name),
                         Icon(Icons.chevron_right)
                       ]),
                 ),
@@ -214,7 +242,11 @@ class _AddEventState extends State<AddEvent> {
                   trailing: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 5,
-                      children: [Text(_eventDate), Icon(Icons.chevron_right)]),
+                      children: [
+                        Text(
+                            "${_eventDate.day}/${_eventDate.month}/${_eventDate.year}"),
+                        Icon(Icons.chevron_right)
+                      ]),
                 ),
               ],
             ),
@@ -230,12 +262,62 @@ class _AddEventState extends State<AddEvent> {
               child: Text("Cancel"),
             ),
             CupertinoButton(
-              onPressed: () {},
+              onPressed: () async {
+                createEvent();
+              },
               child: Text("Submit"),
             )
           ],
         )
       ],
     );
+  }
+}
+
+class CategorySelector extends StatefulWidget {
+  Function onChange;
+  Category initial;
+  List<Category> category;
+  CategorySelector(this.onChange, this.initial, this.category);
+  @override
+  _CategorySelectorState createState() => _CategorySelectorState();
+}
+
+class _CategorySelectorState extends State<CategorySelector> {
+  String selected;
+  var _isInit = true;
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        selected = widget.initial.id;
+      });
+      _isInit = false;
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 180,
+        child: ListView.builder(
+          itemBuilder: (ctx, index) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              checkColor: widget.category[index].color,
+              activeColor: widget.category[index].color,
+              value: widget.category[index].id == selected ? true : false,
+              title: Text(widget.category[index].name),
+              onChanged: (bool value) {
+                setState(() {
+                  selected = widget.category[index].id;
+                  widget.onChange(widget.category[index]);
+                });
+              },
+            );
+          },
+          itemCount: widget.category.length,
+        ));
   }
 }

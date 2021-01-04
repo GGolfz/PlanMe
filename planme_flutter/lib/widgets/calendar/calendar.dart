@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:planme_flutter/providers/categoryProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
@@ -21,43 +23,53 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
   AnimationController _animationController;
   CalendarController _calendarController;
   DateTime _selectedDay;
+  var isInit = true;
+  @override
+  void didChangeDependencies() {
+    if (isInit) {
+      isInit = false;
+      _selectedDay = DateTime.now();
+
+      _events = {
+        _selectedDay: [
+          {
+            "Name": "A01",
+            "Category": "Matematics",
+            "ColorCode": "A01",
+            "Finish": true
+          },
+          {
+            "Name": "A02",
+            "Category": "Science",
+            "ColorCode": "A02",
+            "Finish": false
+          },
+          {
+            "Name": "A03",
+            "Category": "Computer",
+            "ColorCode": "A03",
+            "Finish": false
+          },
+        ],
+      };
+
+      _selectedEvents = _events[_selectedDay] ?? [];
+      _calendarController = CalendarController();
+
+      _animationController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 400),
+      );
+
+      _animationController.forward();
+      Provider.of<UserCategory>(context).fetchData();
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     super.initState();
-    _selectedDay = DateTime.now();
-
-    _events = {
-      _selectedDay: [
-        {
-          "Name": "A01",
-          "Category": "Matematics",
-          "ColorCode": "A01",
-          "Finish": true
-        },
-        {
-          "Name": "A02",
-          "Category": "Science",
-          "ColorCode": "A02",
-          "Finish": false
-        },
-        {
-          "Name": "A03",
-          "Category": "Computer",
-          "ColorCode": "A03",
-          "Finish": false
-        },
-      ],
-    };
-
-    _selectedEvents = _events[_selectedDay] ?? [];
-    _calendarController = CalendarController();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-
-    _animationController.forward();
   }
 
   @override
@@ -68,7 +80,6 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
-    print('CALLBACK: _onDaySelected');
     setState(() {
       _selectedEvents = events;
       _selectedDay = day;
@@ -76,14 +87,10 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
   }
 
   void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onCalendarCreated');
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   bool isSameDate(DateTime first, DateTime second) {
     return first.year == second.year &&

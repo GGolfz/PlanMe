@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:planme_flutter/configs/color.dart';
 
-class ShowStar extends StatefulWidget {
-  @override
-  _ShowStarState createState() => _ShowStarState();
-}
-
-class _ShowStarState extends State<ShowStar> {
+class ShowStar extends StatelessWidget {
+  String amount;
+  ShowStar(this.amount);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -18,13 +15,14 @@ class _ShowStarState extends State<ShowStar> {
           margin: EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 2.0),
           decoration: BoxDecoration(
             color: appbarColor,
-            borderRadius: BorderRadius.all(Radius.circular(10),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
-            ),
-            child : Row(
+          ),
+          child: Row(
             children: <Widget>[
               Text(
-                '250',
+                amount,
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -43,5 +41,3 @@ class _ShowStarState extends State<ShowStar> {
     );
   }
 }
-
-
