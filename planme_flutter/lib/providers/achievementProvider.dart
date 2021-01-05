@@ -1,11 +1,18 @@
 import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
+import 'package:planme_flutter/configs/api.dart';
 
 class Achievement {
+  int _id;
   String _img;
   String _name;
   String _description;
   bool _own;
-  Achievement(this._name, this._description, this._img, this._own);
+  Achievement(this._id, this._name, this._description, this._img, this._own);
+  int get id {
+    return this._id;
+  }
+
   String get img {
     return this._img;
   }
@@ -45,33 +52,20 @@ class UserAchievement with ChangeNotifier {
   }
 
   Future<void> fetchData() async {
-    // Mock Data
-    _achievements = [
-      AchievementGroup("Christmas Collection", [
-        Achievement("Candy Cane", "level 1", "candy-cane.png", true),
-        Achievement("Gingerbread Man", "level 2", "gingerbread-man.png", false),
-        Achievement(
-            "Christmas Wreath", "level 3", "christmas-wreath.png", false),
-        Achievement("Star", "level 4", "star.png", false),
-        Achievement("Candy Cane", "level 5", "candy-cane.png", false)
-      ]),
-      AchievementGroup("Valentine Collection", [
-        Achievement("Love Letter", "level 1", "love-letter.png", true),
-        Achievement("Rose", "level 2", "rose.png", false),
-        Achievement("Chocolate Bar", "level 3", "chocolate-bar.png", false),
-        Achievement("Star", "level 4", "star.png", false),
-        Achievement("Love Letter", "level 5", "love-letter.png", false),
-        Achievement("Candy Cane", "level 6", "candy-cane.png", false)
-      ]),
-      AchievementGroup("Christmas Collection", [
-        Achievement("Candy Cane", "level 1", "candy-cane.png", true),
-        Achievement("Gingerbread Man", "level 2", "gingerbread-man.png", false),
-        Achievement(
-            "Christmas Wreath", "level 3", "christmas-wreath.png", false),
-        Achievement("Star", "level 4", "star.png", false),
-        Achievement("Candy Cane", "level 5", "candy-cane.png", false)
-      ]),
-    ];
-    // notifyListeners();
+    final response = await Dio()
+        .get('http://localhost:5000/api' + '/achievement?token=' + token);
+    List<AchievementGroup> ach = [];
+    final data = response.data["data"].toList();
+    data.forEach((el) {
+      String name = el["achievement_name"];
+      List<Achievement> achlist = [];
+      el["achievement_list"].toList().forEach((data) {
+        achlist.add(Achievement(data["level_id"], data["level_name"],
+            data["level_description"], data["level_img"], data["finish"]));
+      });
+      ach.add(AchievementGroup(name, achlist));
+    });
+    _achievements = ach;
+    notifyListeners();
   }
 }

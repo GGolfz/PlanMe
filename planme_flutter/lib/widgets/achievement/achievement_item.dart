@@ -24,17 +24,20 @@ class AchievementItem extends StatelessWidget {
             height: 100.0,
             margin: EdgeInsets.fromLTRB(15.0, 20.0, 20.0, 15.0),
             decoration: BoxDecoration(
-              color: calendarSecondaryColor,
+              color: achievement.own ? achievementColor[achievement.id] : calendarSecondaryColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(10),
               ),
             ),
-            child: ColorFiltered(
-              colorFilter:
-                  ColorFilter.mode(calendarSecondaryColor, BlendMode.color),
-              child: Image.network(
-                  'https://storage.googleapis.com/planme_storage/stickers/${achievement.img}'),
-            ),
+            child: achievement.own
+                ? Image.network(
+                    'https://storage.googleapis.com/planme_storage/stickers/${achievement.img}')
+                : ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        calendarSecondaryColor, BlendMode.color),
+                    child: Image.network(
+                        'https://storage.googleapis.com/planme_storage/stickers/${achievement.img}'),
+                  ),
           ),
           Text(
             achievement.name,
@@ -50,7 +53,7 @@ class AchievementItem extends StatelessWidget {
           Text(
             achievement.description,
             style: TextStyle(fontSize: 10.0),
-          )
+          ),
         ],
       ),
     );

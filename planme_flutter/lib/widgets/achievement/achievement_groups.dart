@@ -8,6 +8,7 @@ class AchievementGroups extends StatelessWidget {
   AchievementGroups(this.achievementGroup);
   @override
   Widget build(BuildContext context) {
+    print(this.achievementGroup);
     return Column(children: [
       Row(
         children: [

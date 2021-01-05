@@ -45,3 +45,13 @@ const categoryColor = {
   "A09": Color(0xFF42A5F5),
   "A10": Color(0xFF87A2FF)
 };
+
+const achievementColor = [
+  Color(0xFFC7A8DA),
+  Color(0xFFFFA3A5),
+  Color(0xFFFCB6D0),
+  Color(0xFFF8DDA9),
+  Color(0xFFB6DCB6),
+  Color(0xFF4CDDB4),
+  Color(0xFF73E8F2)
+];

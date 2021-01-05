@@ -86,3 +86,5 @@ Content-Type: application/json
     "timer_date": "2021-01-05",
     "timer_time": "6000"
 }
+
+GET http://localhost:5000/api/achievement?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI1ZDc3OWJkYy1kMWM4LTQ2YjAtOGU1ZC05ZGJlZjE2NzUwZDYifQ.PGx-L-o-8hNHoIsVAbTnpb5Zcz0ZrS0Agrw99nWpUf0 HTTP/1.1 
