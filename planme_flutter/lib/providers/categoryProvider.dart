@@ -29,7 +29,7 @@ class Category {
 class UserCategory with ChangeNotifier {
   List<Category> category = [];
   final String token;
-  
+
   UserCategory(this.token, this.category);
 
   Future<void> fetchData() async {
@@ -41,17 +41,18 @@ class UserCategory with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createCategory(String categoryName, String colorCode) async {
+  Future<List<dynamic>> createCategory(
+      String categoryName, String colorCode) async {
     try {
-      await Dio().post(baseURL + '/category', data: {
+      final response = await Dio().post(baseURL + '/category', data: {
         "token": token,
         "category_name": categoryName,
         "color_code": colorCode
       });
       fetchData();
-      return;
+      return response.data['achievements'].toList();
     } catch (error) {
-      return;
+      return [];
     }
   }
 

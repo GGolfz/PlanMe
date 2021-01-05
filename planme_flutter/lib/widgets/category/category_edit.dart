@@ -4,6 +4,7 @@ import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:planme_flutter/widgets/achievement/achievement_alert.dart';
 
 class CategoryEdit extends StatefulWidget {
   final Category category;
@@ -29,14 +30,22 @@ class _CategoryEditState extends State<CategoryEdit> {
   }
 
   Future<void> onSave() async {
+    List<dynamic> alert;
     if (widget.mode == "edit") {
       await Provider.of<UserCategory>(context, listen: false)
           .editCategory(widget.category.id, _textController.text, colorCode);
+      alert = [];
     } else {
-      await Provider.of<UserCategory>(context, listen: false)
+      alert = await Provider.of<UserCategory>(context, listen: false)
           .createCategory(_textController.text, colorCode);
     }
     Navigator.of(context).pop();
+    alert.reversed.forEach((el) {
+      showDialog(
+          context: context,
+          builder: (ctx) =>
+              AchievementAlert(el['level_name'], el['level_img']));
+    });
   }
 
   void changeColor(String code) {

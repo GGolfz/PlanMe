@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'dart:async';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:provider/provider.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
 import 'package:planme_flutter/providers/timerProvider.dart';
+import 'package:planme_flutter/widgets/achievement/achievement_alert.dart';
 
 class CountdownTimer extends StatefulWidget {
   @override
@@ -50,11 +50,18 @@ class _CountdownTimerState extends State<CountdownTimer> {
     });
   }
 
-  void _onFinish() {
+  Future<void> _onFinish() async {
     setState(() {
       isStart = false;
     });
-    Provider.of<Timer>(context, listen: false).saveTimer(_category, _duration);
+    final List<dynamic> alert = await Provider.of<Timer>(context, listen: false)
+        .saveTimer(_category, _duration);
+    alert.reversed.forEach((el) {
+      showDialog(
+          context: context,
+          builder: (ctx) =>
+              AchievementAlert(el['level_name'], el['level_img']));
+    });
   }
 
   void _editCategory(List<Category> category) {
