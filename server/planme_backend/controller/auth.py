@@ -4,7 +4,8 @@ from service.database_connector import getConntection
 import psycopg2
 import jwt
 import json
-from datetime import date
+from datetime import date,timedelta
+from .achievement import checkLoginAccumulateAchievement,checkLoginAchievement,createDefaultAchievement
 secret = 'jwtsecret'
 def register(data):
     try:
@@ -21,15 +22,19 @@ def register(data):
             cur.execute("SELECT uid FROM users WHERE email = '"+email+"'")
             row =cur.fetchone()
             token = jwt.encode({'uid': row[0]},secret, algorithm='HS256')
-            checkDailyLogin(row[0],cur,conn)
+            checkDailyLogin(row[0],cur,conn,'REGISTER')
             createDefaultCategory(row[0],cur,conn)
+            createDefaultAchievement(row[0],cur,conn)
+            d1 = checkLoginAchievement(row[0],cur,conn)
+            d2 = checkLoginAccumulateAchievement(row[0],cur,conn)
         else:
             return Response("{\"error\":{\"email\":\"Email is already used\",\"password\":\"\"}}", mimetype="application/json", status=400)
         cur.close()
         conn.close()
         returned_data = {
         "success":"true",
-        "token":token
+        "token":token,
+        "achievements": d1+d2
         }
         return Response(json.dumps(returned_data), mimetype="application/json", status=201)
     except:
@@ -50,12 +55,14 @@ def login(data):
                 cur.execute("SELECT uid FROM users WHERE email = '"+email+"'")
                 row1 =cur.fetchone()
                 token = jwt.encode({'uid': row1[0]},secret, algorithm='HS256')
+                checkDailyLogin(row1[0],cur,conn,'LOGIN')
+                d1 = checkLoginAchievement(row1[0],cur,conn)
+                d2 = checkLoginAccumulateAchievement(row1[0],cur,conn)
                 returned_data ={
                     "success":"true",
-                    "token":token
+                    "token":token,
+                    "achievements":d1+d2
                 }
-                checkDailyLogin(row1[0],cur,conn)
-                
                 cur.close()
                 conn.close()
                 return Response(json.dumps(returned_data), mimetype="application/json", status=201)
@@ -74,10 +81,17 @@ def isauth(data):
         cur = conn.cursor()
         cur.execute("SELECT uid FROM users WHERE uid='"+uid+"'")       
         row = cur.fetchall()
-        checkDailyLogin(uid,cur,conn)
+        checkDailyLogin(uid,cur,conn,'LOGIN')
+        d1 = checkLoginAchievement(uid,cur,conn)
+        d2 = checkLoginAccumulateAchievement(uid,cur,conn)
+        returned_data ={
+            "success":"true",
+            "token":token,
+            "achievements":d1+d2
+        }
         if len(row) == 0:
             return Response("{\"error\":\"true\"}", mimetype="application/json", status=404)
-        return Response(json.dumps(decoded), mimetype="application/json", status=200)
+        return Response(json.dumps(returned_data), mimetype="application/json", status=200)
     except:
         return Response("{\"error\":\"true\"}", mimetype="application/json", status=400)
 
@@ -90,13 +104,25 @@ def extractJWT(token):
         raise Exception("Unauthorize")
         return ''
 
-def checkDailyLogin(uid,cur,conn):
+def checkDailyLogin(uid,cur,conn,t):
     today = date.today()
+    yesterday = today - timedelta(days=1)
     cur.execute("SELECT date FROM login_log WHERE uid = '"+uid+"' AND date = '"+str(today)+"'")
     data = cur.fetchall()
     if len(data) == 0:
         cur.execute("INSERT INTO login_log(uid,date) VALUES('"+uid+"','"+str(today)+"')")
         conn.commit()
+        if t == 'REGISTER':
+            cur.execute("INSERT INTO login_accumulate(uid,times) VALUES('"+uid+"',1)")
+            conn.commit()
+        else:
+            cur.execute("SELECT date FROM login_log WHERE uid = '"+uid+"' AND date ='"+ str(yesterday)+"'")
+            d = cur.fetchall()
+            if len(d) == 0:
+                cur.execute("UPDATE login_accumulate SET times = 1 WHERE uid = '"+uid+"'")
+            else:
+                cur.execute("UPDATE login_accumulate SET times = 2 WHERE uid = '"+uid+"'")
+            conn.commit()
 
 def createDefaultCategory(uid,cur,conn):
     cur.execute("INSERT INTO category(category_name, color_code) VALUES('Work','A01'),('Study','A02'),('Relax','A03') RETURNING cid;")

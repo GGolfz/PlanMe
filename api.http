@@ -13,7 +13,7 @@ POST http://localhost:5000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "test0@test.com",
+    "email": "test101@test.com",
     "password": "testuser"
 }
 
@@ -25,12 +25,8 @@ Content-Type: application/json
     "password": "testuser"
 }
 
-POST http://localhost:5000/api/auth/isAuth HTTP/1.1
-Content-Type: application/json
+GET http://localhost:5000/api/auth/isAuth?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI1ZDc3OWJkYy1kMWM4LTQ2YjAtOGU1ZC05ZGJlZjE2NzUwZDYifQ.PGx-L-o-8hNHoIsVAbTnpb5Zcz0ZrS0Agrw99nWpUf0 HTTP/1.1
 
-{
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI1ZDc3OWJkYy1kMWM4LTQ2YjAtOGU1ZC05ZGJlZjE2NzUwZDYifQ.PGx-L-o-8hNHoIsVAbTnpb5Zcz0ZrS0Agrw99nWpUf0"
-}
 
 GET http://localhost:5000/api/category?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI1ZDc3OWJkYy1kMWM4LTQ2YjAtOGU1ZC05ZGJlZjE2NzUwZDYifQ.PGx-L-o-8hNHoIsVAbTnpb5Zcz0ZrS0Agrw99nWpUf0 HTTP/1.1
 
