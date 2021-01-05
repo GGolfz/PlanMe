@@ -29,7 +29,7 @@ class Category {
 class UserCategory with ChangeNotifier {
   List<Category> category = [];
   final String token;
-
+  
   UserCategory(this.token, this.category);
 
   Future<void> fetchData() async {

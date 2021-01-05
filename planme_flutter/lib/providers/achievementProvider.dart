@@ -53,7 +53,7 @@ class UserAchievement with ChangeNotifier {
 
   Future<void> fetchData() async {
     final response = await Dio()
-        .get('http://localhost:5000/api' + '/achievement?token=' + token);
+        .get(baseURL + '/achievement?token=' + token);
     List<AchievementGroup> ach = [];
     final data = response.data["data"].toList();
     data.forEach((el) {

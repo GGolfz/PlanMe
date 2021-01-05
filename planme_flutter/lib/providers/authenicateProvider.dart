@@ -13,6 +13,8 @@ class UserInfo {
 
 class Authenicate with ChangeNotifier {
   String _token;
+  Authenicate();
+
   String get token {
     return _token;
   }
@@ -29,11 +31,9 @@ class Authenicate with ChangeNotifier {
     final extractedUserData = prefs.getString('userData');
     _token = json.decode(extractedUserData)['token'];
     notifyListeners();
-    prefs.clear();
     try {
       await Dio()
-          .get('http://localhost:5000/api' + '/auth/isAuth?token=$_token');
-      // Implement Achievement Success
+          .get(baseURL + '/auth/isAuth?token=$_token');
     } catch (error) {
       prefs.clear();
       _token = null;
@@ -53,7 +53,7 @@ class Authenicate with ChangeNotifier {
     }
     try {
       final response = await Dio().post(
-          'http://localhost:5000/api' + '/auth/login',
+          baseURL + '/auth/login',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
       _token = token;
@@ -65,7 +65,6 @@ class Authenicate with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
-      // Implement Achievement Success
     } catch (error) {
       throw AuthenicateException(null, "Invalid username or password");
     }
@@ -84,7 +83,7 @@ class Authenicate with ChangeNotifier {
     }
     try {
       final response = await Dio().post(
-          'http://localhost:5000/api' + '/auth/register',
+          baseURL + '/auth/register',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
       _token = token;
@@ -96,7 +95,6 @@ class Authenicate with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
-      // Implement Achievement Success
     } catch (error) {
       throw AuthenicateException(null, "Email is already used");
     }
