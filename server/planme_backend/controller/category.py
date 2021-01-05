@@ -4,7 +4,7 @@ from .auth import extractJWT
 import psycopg2
 import jwt
 import json
-
+from .achievement import checkCategoryAchievement
 def getCategory(data):
     uid = extractJWT(data['token'])
     conn = getConntection()
@@ -27,9 +27,14 @@ def createCategory(data):
         cid = cur.fetchone()
         cur.execute("INSERT INTO user_category(uid,cid) VALUES ('"+uid+"','"+cid[0]+"')")
         conn.commit()
+        data = checkCategoryAchievement(uid,cur,conn)
         cur.close()
         conn.close()
-        return Response(json.dumps({"success":"true"}), mimetype="application/json", status=201)
+        returned_data ={
+            "success":"true",
+            "achievements":data
+        }
+        return Response(json.dumps(returned_data), mimetype="application/json", status=201)
     except:
         return Response(json.dumps({"error":"true"}), mimetype="application/json", status=400)
 def editCategory(data):
