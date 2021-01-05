@@ -9,8 +9,9 @@ class AchievementItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 160.0,
-      height: 250.0,
-      margin: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 0.0),
+      height: 300.0,
+      margin: EdgeInsets.fromLTRB(15.0, 0.0, 20.0, 0.0),
+      padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
@@ -18,13 +19,16 @@ class AchievementItem extends StatelessWidget {
         ),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             width: 100.0,
             height: 100.0,
             margin: EdgeInsets.fromLTRB(15.0, 20.0, 20.0, 15.0),
             decoration: BoxDecoration(
-              color: achievement.own ? achievementColor[achievement.id] : calendarSecondaryColor,
+              color: achievement.own
+                  ? achievementColor[achievement.id]
+                  : calendarSecondaryColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -41,8 +45,9 @@ class AchievementItem extends StatelessWidget {
           ),
           Text(
             achievement.name,
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 17.0,
+              fontSize: 18.0,
               fontWeight: FontWeight.bold,
               color: titleColorBlack,
             ),
@@ -52,7 +57,8 @@ class AchievementItem extends StatelessWidget {
           ),
           Text(
             achievement.description,
-            style: TextStyle(fontSize: 10.0),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12.0),
           ),
         ],
       ),

@@ -8,12 +8,11 @@ class AchievementGroups extends StatelessWidget {
   AchievementGroups(this.achievementGroup);
   @override
   Widget build(BuildContext context) {
-    print(this.achievementGroup);
     return Column(children: [
       Row(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(15.0, 8.0, 10.0, 15.0),
+            padding: EdgeInsets.fromLTRB(15.0, 8.0, 10.0, 10.0),
             child: Text(
               achievementGroup.name,
               style: TextStyle(
@@ -31,9 +30,9 @@ class AchievementGroups extends StatelessWidget {
           Expanded(
             child: Container(
                 width: 200.0,
-                height: 250.0,
-                margin: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 30.0),
-                padding: EdgeInsets.fromLTRB(15.0, 2.0, 20.0, 15.0),
+                height: 270.0,
+                margin: EdgeInsets.fromLTRB(15.0, 5.0, 20.0, 5.0),
+                padding: EdgeInsets.fromLTRB(15.0, 5.0, 20.0, 5.0),
                 decoration: BoxDecoration(
                   color: appbarColor,
                   borderRadius: BorderRadius.all(
@@ -41,9 +40,9 @@ class AchievementGroups extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 20.0),
-                    height: 200.0,
-                    width: 200.0,
+                    margin: EdgeInsets.symmetric(vertical: 15.0),
+                    height: 300.0,
+                    width: 270.0,
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: <Widget>[
@@ -52,6 +51,9 @@ class AchievementGroups extends StatelessWidget {
                         ]))),
           ),
         ],
+      ),
+      SizedBox(
+        height: 10,
       )
     ]);
   }
