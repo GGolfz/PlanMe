@@ -132,22 +132,22 @@
 
 
 ## Achievement (Finish)
-- Finish 1 
-- Finish 3
-- Finish 5
+- Finish 5 
 - Finish 10
+- Finish 15
+- Finish 20
 - Finish 25
 ## ach 1
-- for finish 1 achievement
+- for finish 5 achievement
 -
 ## ach 2
-- for finish 3 achievements
+- for finish 10 achievements
 -
 ## ach 3
-- for finish 5 achievements
+- for finish 15 achievements
 -
 ## ach 4
-- for finish 10 achievements
+- for finish 20 achievements
 -
 ## ach 5
 - for finish 25 achievements
