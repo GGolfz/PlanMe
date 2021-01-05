@@ -21,9 +21,8 @@ def register(data):
             cur.execute("SELECT uid FROM users WHERE email = '"+email+"'")
             row =cur.fetchone()
             token = jwt.encode({'uid': row[0]},secret, algorithm='HS256')
-            today = date.today()
-            cur.execute("INSERT INTO login_log(uid,date) VALUES('"+row[0]+"','"+str(today)+"')")
-            conn.commit()
+            checkDailyLogin(row[0],cur,conn)
+            createDefaultCategory(row[0],cur,conn)
         else:
             return Response("{\"error\":{\"email\":\"Email is already used\",\"password\":\"\"}}", mimetype="application/json", status=400)
         cur.close()
@@ -55,12 +54,8 @@ def login(data):
                     "success":"true",
                     "token":token
                 }
-                today = date.today()
-                cur.execute("SELECT date FROM login_log WHERE uid = '"+row1[0]+"' AND date = '"+str(today)+"'")
-                row2 = cur.fetchall()
-                if len(row2) == 0:
-                    cur.execute("INSERT INTO login_log(uid,date) VALUES('"+row1[0]+"','"+str(today)+"')")
-                    conn.commit()
+                checkDailyLogin(row1[0],cur,conn)
+                
                 cur.close()
                 conn.close()
                 return Response(json.dumps(returned_data), mimetype="application/json", status=201)
@@ -79,14 +74,7 @@ def isauth(data):
         cur = conn.cursor()
         cur.execute("SELECT uid FROM users WHERE uid='"+uid+"'")       
         row = cur.fetchall()
-        today = date.today()
-        cur.execute("SELECT date FROM login_log WHERE uid = '"+uid+"' AND date = '"+str(today)+"'")
-        row2 = cur.fetchall()
-        if len(row2) == 0:
-            cur.execute("INSERT INTO login_log(uid,date) VALUES('"+uid+"','"+str(today)+"')")
-            conn.commit()
-        cur.close()
-        conn.close()
+        checkDailyLogin(uid,cur,conn)
         if len(row) == 0:
             return Response("{\"error\":\"true\"}", mimetype="application/json", status=404)
         return Response(json.dumps(decoded), mimetype="application/json", status=200)
@@ -101,3 +89,19 @@ def extractJWT(token):
     except:
         raise Exception("Unauthorize")
         return ''
+
+def checkDailyLogin(uid,cur,conn):
+    today = date.today()
+    cur.execute("SELECT date FROM login_log WHERE uid = '"+uid+"' AND date = '"+str(today)+"'")
+    data = cur.fetchall()
+    if len(data) == 0:
+        cur.execute("INSERT INTO login_log(uid,date) VALUES('"+uid+"','"+str(today)+"')")
+        conn.commit()
+
+def createDefaultCategory(uid,cur,conn):
+    cur.execute("INSERT INTO category(category_name, color_code) VALUES('Work','A01'),('Study','A02'),('Relax','A03') RETURNING cid;")
+    conn.commit()
+    row = cur.fetchall()
+    for i in row:
+        cur.execute("INSERT INTO user_category(uid,cid) VALUES ('"+uid+"','"+i[0]+"')")
+        conn.commit()
