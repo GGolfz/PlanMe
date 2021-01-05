@@ -124,7 +124,7 @@ def checkDailyLogin(uid,cur,conn,t):
             if len(d) == 0:
                 cur.execute("UPDATE login_accumulate SET times = 1 WHERE uid = '"+uid+"'")
             else:
-                cur.execute("UPDATE login_accumulate SET times = 2 WHERE uid = '"+uid+"'")
+                cur.execute("UPDATE login_accumulate SET times = times+1 WHERE uid = '"+uid+"'")
             conn.commit()
 
 def createDefaultCategory(uid,cur,conn):
