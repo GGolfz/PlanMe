@@ -56,7 +56,7 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
   }
 
   Future<void> fetchData() async {
-    Provider.of<UserEvent>(context).fetchData(_selectedDay);
+    Provider.of<UserEvent>(context, listen: false).fetchData(_selectedDay);
   }
 
   Future<void> _onDaySelected(DateTime day, List events, List holidays) async {
