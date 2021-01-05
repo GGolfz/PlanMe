@@ -23,25 +23,26 @@ class Authenicate with ChangeNotifier {
     return _token != null;
   }
 
-  Future<bool> tryAutoLogin() async {
+  Future<List<dynamic>> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
-      return false;
+      throw "Error";
     }
     final extractedUserData = prefs.getString('userData');
     _token = json.decode(extractedUserData)['token'];
     notifyListeners();
+    prefs.clear();
     try {
-      await Dio()
-          .get(baseURL + '/auth/isAuth?token=$_token');
+      final response = await Dio().get(baseURL + '/auth/isAuth?token=$_token');
+      return response.data['achievements'].toList();
     } catch (error) {
       prefs.clear();
       _token = null;
+      throw "Error";
     }
-    return true;
   }
 
-  Future<void> login(UserInfo userInfo) async {
+  Future<List<dynamic>> login(UserInfo userInfo) async {
     if (userInfo.email == "" && userInfo.password == "") {
       throw AuthenicateException("Email is required", "Password is required");
     }
@@ -52,8 +53,7 @@ class Authenicate with ChangeNotifier {
       throw AuthenicateException(null, "Password is required");
     }
     try {
-      final response = await Dio().post(
-          baseURL + '/auth/login',
+      final response = await Dio().post(baseURL + '/auth/login',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
       _token = token;
@@ -65,13 +65,13 @@ class Authenicate with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
+      return response.data['achievements'].toList();
     } catch (error) {
       throw AuthenicateException(null, "Invalid username or password");
     }
-    notifyListeners();
   }
 
-  Future<void> register(UserInfo userInfo) async {
+  Future<List<dynamic>> register(UserInfo userInfo) async {
     if (userInfo.email == "" && userInfo.password == "") {
       throw AuthenicateException("Email is required", "Password is required");
     }
@@ -82,8 +82,7 @@ class Authenicate with ChangeNotifier {
       throw AuthenicateException(null, "Password is required");
     }
     try {
-      final response = await Dio().post(
-          baseURL + '/auth/register',
+      final response = await Dio().post(baseURL + '/auth/register',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
       _token = token;
@@ -95,6 +94,7 @@ class Authenicate with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
+      return response.data['achievements'].toList();
     } catch (error) {
       throw AuthenicateException(null, "Email is already used");
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:planme_flutter/model/authenicateException.dart';
+import 'package:planme_flutter/widgets/achievement/achievement_alert.dart';
 import 'package:provider/provider.dart';
 import 'package:planme_flutter/providers/authenicateProvider.dart';
 import './layoutRender.dart';
@@ -73,14 +74,22 @@ class _LoginFormState extends State<LoginForm> {
       isLoading = true;
     });
     _form.currentState.save();
+    List<dynamic> alert;
     try {
       if (widget.isLogin) {
-        await Provider.of<Authenicate>(context, listen: false).login(userInfo);
+        alert = await Provider.of<Authenicate>(context, listen: false)
+            .login(userInfo);
       } else {
-        await Provider.of<Authenicate>(context, listen: false)
+        alert = await Provider.of<Authenicate>(context, listen: false)
             .register(userInfo);
       }
       Navigator.of(context).pushReplacementNamed('/calendar');
+      alert.reversed.forEach((el) {
+        showDialog(
+            context: context,
+            builder: (ctx) =>
+                AchievementAlert(el['level_name'], el['level_img']));
+      });
       setState(() {
         emailError = null;
         passwordError = null;
