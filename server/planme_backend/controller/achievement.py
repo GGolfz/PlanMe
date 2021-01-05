@@ -37,7 +37,7 @@ def checkLoginAchievement(uid,cur,conn):
         curlv = 1
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
@@ -66,7 +66,7 @@ def checkLoginAccumulateAchievement(uid,cur,conn):
         curlv = 1
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
@@ -95,7 +95,7 @@ def checkCategoryAchievement(uid,cur,conn):
         curlv = 1
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
@@ -124,7 +124,7 @@ def checkTimerAchievement(uid,cur,conn,mtime):
         curlv = 1
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
@@ -156,7 +156,7 @@ def checkTimerAccumulateAchievement(uid,cur,conn):
         curlv = 1
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
@@ -195,7 +195,7 @@ def checkAchievementCollect(uid,cur,conn):
         curlv = 1
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
@@ -221,7 +221,7 @@ def checkAchievementLevel(uid,cur,conn):
             break
     ach = []
     if curlv > lv:
-        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"' ORDER BY level_id")
         data = cur.fetchall()
         for i in data:
             ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
