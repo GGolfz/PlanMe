@@ -5,7 +5,7 @@ import psycopg2
 import jwt
 import json
 from datetime import date,timedelta
-from .achievement import checkLoginAccumulateAchievement,checkLoginAchievement,createDefaultAchievement
+from .achievement import checkLoginAccumulateAchievement,checkLoginAchievement,createDefaultAchievement,checkAchievementCollection
 secret = 'jwtsecret'
 def register(data):
     try:
@@ -27,6 +27,7 @@ def register(data):
             createDefaultAchievement(row[0],cur,conn)
             d1 = checkLoginAchievement(row[0],cur,conn)
             d2 = checkLoginAccumulateAchievement(row[0],cur,conn)
+            d3 = checkAchievementCollection(row[0],cur,conn)
         else:
             return Response("{\"error\":{\"email\":\"Email is already used\",\"password\":\"\"}}", mimetype="application/json", status=400)
         cur.close()
@@ -34,7 +35,7 @@ def register(data):
         returned_data = {
         "success":"true",
         "token":token,
-        "achievements": d1+d2
+        "achievements": d1+d2+d3
         }
         return Response(json.dumps(returned_data), mimetype="application/json", status=201)
     except:
@@ -58,10 +59,11 @@ def login(data):
                 checkDailyLogin(row1[0],cur,conn,'LOGIN')
                 d1 = checkLoginAchievement(row1[0],cur,conn)
                 d2 = checkLoginAccumulateAchievement(row1[0],cur,conn)
+                d3 = checkAchievementCollection(row1[0],cur,conn)
                 returned_data ={
                     "success":"true",
                     "token":token,
-                    "achievements":d1+d2
+                    "achievements":d1+d2+d3
                 }
                 cur.close()
                 conn.close()
@@ -84,10 +86,11 @@ def isauth(data):
         checkDailyLogin(uid,cur,conn,'LOGIN')
         d1 = checkLoginAchievement(uid,cur,conn)
         d2 = checkLoginAccumulateAchievement(uid,cur,conn)
+        d3 = checkAchievementCollection(uid,cur,conn)
         returned_data ={
             "success":"true",
             "token":token,
-            "achievements":d1+d2
+            "achievements":d1+d2+d3
         }
         if len(row) == 0:
             return Response("{\"error\":\"true\"}", mimetype="application/json", status=404)

@@ -4,7 +4,7 @@ from .auth import extractJWT
 import psycopg2
 import jwt
 import json
-from .achievement import checkTimerAchievement,checkTimerAccumulateAchievement
+from .achievement import checkTimerAchievement,checkTimerAccumulateAchievement,checkAchievementCollection
 
 def saveTimer(data):
     try:
@@ -15,11 +15,12 @@ def saveTimer(data):
         conn.commit()
         d1 = checkTimerAchievement(uid,cur,conn,int(data['timer_time']))
         d2 = checkTimerAccumulateAchievement(uid,cur,conn)
+        d3 = checkAchievementCollection(uid,cur,conn)
         cur.close()
         conn.close()
         returned_data ={
                 "success":"true",
-                "achievements":d1+d2
+                "achievements":d1+d2+d3
         }
         return Response(json.dumps(returned_data), mimetype="application/json", status=201)
     except:

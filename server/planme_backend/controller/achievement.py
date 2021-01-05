@@ -3,7 +3,8 @@ LoginAchievement2 = "Login Accumulate"
 CategoryAchievement = "Category"
 TimerAchievement1 = "Timer"
 TimerAchievement2 = "Timer Accumulate"
-
+AchievementCollection1 = "Achievement Collect"
+AchievementCollection2 = "Achievement Level"
 def createDefaultAchievement(uid,cur,conn):
     cur.execute("SELECT achievement_id FROM achievement")
     data = cur.fetchall()
@@ -153,6 +154,71 @@ def checkTimerAccumulateAchievement(uid,cur,conn):
         curlv = 2
     elif time >= 100:
         curlv = 1
+    ach = []
+    if curlv > lv:
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        data = cur.fetchall()
+        for i in data:
+            ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
+        cur.execute("UPDATE user_achievement SET achievement_level = "+str(curlv)+" WHERE achievement_id = '"+str(aid)+"' AND uid ='"+uid+"'")
+        conn.commit()
+    return ach
+
+def checkAchievementCollection(uid,cur,conn):
+    ach = []
+    while(True):
+        d1 = checkAchievementCollect(uid,cur,conn)
+        d2 = checkAchievementLevel(uid,cur,conn)
+        if len(d1) == 0 and len(d2) == 0:
+            break
+        ach = ach + d1 + d2
+    return ach
+
+def checkAchievementCollect(uid,cur,conn):
+    cur.execute("SELECT sum(achievement_level) FROM user_achievement WHERE uid = '"+uid+"'")
+    achsum = cur.fetchone()
+    achsum = int(achsum[0])
+    cur.execute("SELECT achievement.achievement_id,achievement_level FROM user_achievement JOIN achievement ON user_achievement.achievement_id = achievement.achievement_id AND achievement_name = '"+AchievementCollection1+"' AND uid ='"+uid+"'")
+    ac = cur.fetchone()
+    aid = ac[0]
+    lv = ac[1]
+    curlv = 0
+    if achsum >= 25:
+        curlv = 5
+    elif achsum >= 20:
+        curlv = 4
+    elif achsum >= 15:
+        curlv = 3
+    elif achsum >= 10:
+        curlv = 2
+    elif achsum >= 5:
+        curlv = 1
+    ach = []
+    if curlv > lv:
+        cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
+        data = cur.fetchall()
+        for i in data:
+            ach.append({"achievement_id":i[0],"level_name":i[1],"level_img":i[2]})
+        cur.execute("UPDATE user_achievement SET achievement_level = "+str(curlv)+" WHERE achievement_id = '"+str(aid)+"' AND uid ='"+uid+"'")
+        conn.commit()
+    return ach
+
+def checkAchievementLevel(uid,cur,conn):
+    cur.execute("SELECT achievement_level FROM user_achievement WHERE uid = '"+uid+"'")
+    achls= cur.fetchall()
+    cur.execute("SELECT achievement.achievement_id,achievement_level FROM user_achievement JOIN achievement ON user_achievement.achievement_id = achievement.achievement_id AND achievement_name = '"+AchievementCollection2+"' AND uid ='"+uid+"'")
+    ac = cur.fetchone()
+    aid = ac[0]
+    lv = ac[1]
+    curlv = 0
+    for i in range(5):
+        c = 0
+        for j in achls:
+            if int(j[0]) >= 5-i:
+                c+=1
+        if c >= 5:
+            curlv = 5-i
+            break
     ach = []
     if curlv > lv:
         cur.execute("SELECT achievement.achievement_id,level_name,level_img FROM ach_level JOIN achievement ON achievement.achievement_id = ach_level.achievement_id WHERE level_id > "+str(lv)+" AND level_id <= "+str(curlv)+" AND achievement.achievement_id = '"+str(aid)+"'")
