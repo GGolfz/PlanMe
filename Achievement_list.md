@@ -55,25 +55,25 @@
 
 
 ## Category
-- own 1 category
-- own 3 category
 - own 5 category
 - own 7 category
 - own 10 category
+- own 15 category
+- own 20 category
 ## cat 1
-- for create own 1 category
+- for create own 5 category
 -
 ## cat 2
-- for create own 3 categories
--
-## cat 3
-- for create own 5 categories
--
-## cat 4
 - for create own 7 categories
 -
-## cat 5
+## cat 3
 - for create own 10 categories
+-
+## cat 4
+- for create own 15 categories
+-
+## cat 5
+- for create own 20 categories
 -
 
 
