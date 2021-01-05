@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planme_flutter/configs/color.dart';
+import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
 import 'package:planme_flutter/widgets/category/category_edit.dart';
 import 'package:provider/provider.dart';
@@ -59,10 +60,30 @@ class CategoryItem extends StatelessWidget {
                           ),
                           CupertinoDialogAction(
                               onPressed: () async {
-                                await Provider.of<UserCategory>(context,
-                                        listen: false)
-                                    .deleteCategory(categoryData.id);
-                                Navigator.of(context).pop();
+                                try {
+                                  await Provider.of<UserCategory>(context,
+                                          listen: false)
+                                      .deleteCategory(categoryData.id);
+                                  Navigator.of(context).pop();
+                                } catch (error) {
+                                  Navigator.of(context).pop();
+                                  showCupertinoDialog(
+                                      context: context,
+                                      builder: (ctx) => CupertinoAlertDialog(
+                                            content: Text(
+                                              error,
+                                              style: normalText,
+                                            ),
+                                            actions: [
+                                              CupertinoDialogAction(
+                                                child: Text("OK"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )
+                                            ],
+                                          ));
+                                }
                               },
                               child: Text(
                                 "Yes",

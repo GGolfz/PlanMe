@@ -30,7 +30,8 @@ class Authenicate with ChangeNotifier {
     _token = json.decode(extractedUserData)['token'];
     notifyListeners();
     try {
-      await Dio().get(baseURL + '/auth/isAuth?token=$_token');
+      await Dio()
+          .get(baseURL + '/auth/isAuth?token=$_token');
     } catch (error) {
       prefs.clear();
       _token = null;
@@ -49,7 +50,8 @@ class Authenicate with ChangeNotifier {
       throw AuthenicateException(null, "Password is required");
     }
     try {
-      final response = await Dio().post(baseURL + '/auth/login',
+      final response = await Dio().post(
+          baseURL + '/auth/login',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
       _token = token;
@@ -78,7 +80,8 @@ class Authenicate with ChangeNotifier {
       throw AuthenicateException(null, "Password is required");
     }
     try {
-      final response = await Dio().post(baseURL + '/auth/register',
+      final response = await Dio().post(
+          baseURL + '/auth/register',
           data: {"email": userInfo.email, "password": userInfo.password});
       final token = response.data['token'];
       _token = token;

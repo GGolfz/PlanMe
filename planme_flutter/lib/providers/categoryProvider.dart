@@ -73,13 +73,20 @@ class UserCategory with ChangeNotifier {
 
   Future<void> deleteCategory(String categoryId) async {
     try {
-      await Dio().delete(baseURL + '/category', data: {
-        "token": token,
-        "cid": categoryId,
-      });
-      fetchData();
-      return;
+      if (category.length == 1) {
+        throw "You must have at least 1 category";
+      } else {
+        await Dio().delete(baseURL + '/category', data: {
+          "token": token,
+          "cid": categoryId,
+        });
+        fetchData();
+        return;
+      }
     } catch (error) {
+      if (error == "You must have at least 1 category") {
+        throw error;
+      }
       return;
     }
   }
