@@ -77,6 +77,12 @@ GROUP BY c.cid,category_name,color_code")
             sums += mins
             res.append({"category_name":i[1],"color_code":i[2],"times":mins})
         returned_data = {"sum_time": sums, "data": res}
+        if sums == 0 and len(res) == 0:
+            returned_data = {"sum_time": 1, "data": {
+                "category_name": "No Data",
+                "color_code": "A01",
+                "times": 1
+            }}
         return Response(json.dumps(returned_data), mimetype="application/json", status=200)
     except:
         return Response(json.dumps({"error":"true"}), mimetype="application/json", status=400)
