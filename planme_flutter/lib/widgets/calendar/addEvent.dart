@@ -111,7 +111,7 @@ class _AddEventState extends State<AddEvent> {
       data: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
               dateTimePickerTextStyle: TextStyle(
-                  fontFamily: 'Nunito', color: deepBlack, fontSize: 14))),
+                  fontFamily: 'Nunito', color: deepBlack, fontSize: 16))),
       child: CupertinoDatePicker(
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: onChange,
