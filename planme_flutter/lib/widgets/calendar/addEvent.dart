@@ -274,13 +274,13 @@ class _AddEventState extends State<AddEvent> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: Text("Cancel", style: TextStyle(fontFamily: 'Nunito')),
             ),
             CupertinoButton(
               onPressed: () async {
                 createEvent();
               },
-              child: Text("Submit"),
+              child: Text("Submit", style: TextStyle(fontFamily: 'Nunito')),
             )
           ],
         )
