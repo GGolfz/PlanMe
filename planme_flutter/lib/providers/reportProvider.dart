@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:planme_flutter/configs/api.dart';
 
 class DayReport {
   DateTime date;
@@ -33,10 +34,9 @@ class ReportProvider with ChangeNotifier {
   WeekCategoryReport categoryReport;
   ReportProvider(this.token);
   Future<void> fetchData() async {
-    final dayResponse = await Dio()
-        .get('http://localhost:5000/api' + '/report/day?token=$token');
-    final categoryResponse = await Dio()
-        .get('http://localhost:5000/api' + '/report/category?token=$token');
+    final dayResponse = await Dio().get(baseURL + '/report/day?token=$token');
+    final categoryResponse =
+        await Dio().get(baseURL + '/report/category?token=$token');
     List<DayReport> dy = [];
     double md = 0;
     dayResponse.data["data"].toList().forEach((element) {
