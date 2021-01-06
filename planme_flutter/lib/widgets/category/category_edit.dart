@@ -146,11 +146,14 @@ class _CategoryEditState extends State<CategoryEdit> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CupertinoButton(
-                    child: Text("Cancel"),
+                    child:
+                        Text("Cancel", style: TextStyle(fontFamily: 'Nunito')),
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
-                CupertinoButton(child: Text("Save"), onPressed: onSave)
+                CupertinoButton(
+                    child: Text("Save", style: TextStyle(fontFamily: 'Nunito')),
+                    onPressed: onSave)
               ],
             )
           ],
