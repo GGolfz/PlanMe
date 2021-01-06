@@ -81,6 +81,7 @@ class _ScreenRenderingState extends State<ScreenRendering> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: PlanMeAppBar(),
       body: _renderScreen(),
       bottomNavigationBar: PlanMeBottomNagivatorBar(_navigate, currentRoute),

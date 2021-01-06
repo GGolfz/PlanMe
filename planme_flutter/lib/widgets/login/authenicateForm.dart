@@ -113,16 +113,17 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           customTextField(
-              context, "Email", false, emailError, _passwordFocusNode, (value) {
+              context, "Email", false, emailError, _passwordFocusNode, null,
+              (value) {
             userInfo = UserInfo(email: value, password: userInfo.password);
-          }),
+          }, TextInputAction.next),
           SizedBox(
             height: 15,
           ),
           customTextField(context, "Password", true, passwordError, null,
-              (value) {
+              _passwordFocusNode, (value) {
             userInfo = UserInfo(email: userInfo.email, password: value);
-          }),
+          }, TextInputAction.done),
           SizedBox(
             height: 25,
           ),
@@ -152,8 +153,15 @@ Widget customButton(Widget child, Function handleClick) {
   );
 }
 
-Widget customTextField(BuildContext context, String text, bool isPassword,
-    String errorText, FocusNode focusNode, Function onSave) {
+Widget customTextField(
+    BuildContext context,
+    String text,
+    bool isPassword,
+    String errorText,
+    FocusNode focusNode,
+    FocusNode currentFocusNode,
+    Function onSave,
+    TextInputAction action) {
   var borderStyle = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
       borderSide: BorderSide(
@@ -161,12 +169,13 @@ Widget customTextField(BuildContext context, String text, bool isPassword,
   return TextFormField(
     style: TextStyle(fontSize: 16),
     obscureText: isPassword,
-    textInputAction: TextInputAction.next,
+    textInputAction: action,
     onFieldSubmitted: (_) {
       if (focusNode != null) {
         FocusScope.of(context).requestFocus(focusNode);
       }
     },
+    focusNode: currentFocusNode,
     onSaved: onSave,
     decoration: InputDecoration(
         contentPadding: EdgeInsets.all(10),

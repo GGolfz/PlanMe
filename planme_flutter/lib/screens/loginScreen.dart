@@ -11,8 +11,6 @@ class LoginScreen extends StatelessWidget {
     appLogo(),
     renderText("plan", landingTitleText),
     renderText("me", landingSubTitleText),
-    // googleAuth(),
-    // renderText("or", landingOrText),
     SizedBox(
       height: 40,
     ),
@@ -23,12 +21,16 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: landingBackgroundColor,
       body: Container(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ...renderList.map((e) => renderRowCenter(e)),
-        ],
-      )),
+          padding: EdgeInsets.only(top: 120),
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...renderList.map((e) => renderRowCenter(e)),
+              ],
+            ),
+          )),
     );
   }
 }

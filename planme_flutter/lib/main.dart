@@ -10,8 +10,10 @@ import 'screens/loginScreen.dart';
 import 'widgets/achievement/achievement_alert.dart';
 import 'package:provider/provider.dart';
 import 'providers/authenicateProvider.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }
 
