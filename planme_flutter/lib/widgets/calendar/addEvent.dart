@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:planme_flutter/configs/color.dart';
 import 'package:planme_flutter/configs/fontStyle.dart';
 import 'package:planme_flutter/providers/categoryProvider.dart';
 import 'package:planme_flutter/providers/eventProvider.dart';
@@ -43,7 +44,7 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        height: 262,
+        height: 265,
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
             child: _buildDialog()),
@@ -109,7 +110,8 @@ class _AddEventState extends State<AddEvent> {
     return CupertinoTheme(
       data: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
-              dateTimePickerTextStyle: TextStyle(fontFamily: 'Nunito'))),
+              dateTimePickerTextStyle:
+                  TextStyle(fontFamily: 'Nunito', color: deepBlack))),
       child: CupertinoDatePicker(
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: onChange,
