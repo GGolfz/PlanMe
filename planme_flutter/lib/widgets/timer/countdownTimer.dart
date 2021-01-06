@@ -88,7 +88,8 @@ class _CountdownTimerState extends State<CountdownTimer> {
                         });
                         Navigator.of(context).pop();
                       },
-                      child: Text("Save"),
+                      child:
+                          Text("Save", style: TextStyle(fontFamily: 'Nunito')),
                     ),
                   ],
                 ),
@@ -99,7 +100,8 @@ class _CountdownTimerState extends State<CountdownTimer> {
                     ...category
                         .map((e) => Padding(
                             padding: EdgeInsets.only(top: 12, bottom: 4),
-                            child: Text(e.name)))
+                            child: Text(e.name,
+                                style: TextStyle(fontFamily: 'Nunito'))))
                         .toList()
                   ],
                   onSelectedItemChanged: (value) {
@@ -135,15 +137,22 @@ class _CountdownTimerState extends State<CountdownTimer> {
                         });
                         Navigator.of(context).pop();
                       },
-                      child: Text("Save"),
+                      child:
+                          Text("Save", style: TextStyle(fontFamily: 'Nunito')),
                     ),
                   ],
                 ),
-                CupertinoTimerPicker(
-                  initialTimerDuration: _duration,
-                  onTimerDurationChanged: (duration) {
-                    _tempDuration = duration;
-                  },
+                CupertinoTheme(
+                  data: CupertinoThemeData(
+                      textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle:
+                              TextStyle(fontFamily: 'Nunito'))),
+                  child: CupertinoTimerPicker(
+                    initialTimerDuration: _duration,
+                    onTimerDurationChanged: (duration) {
+                      _tempDuration = duration;
+                    },
+                  ),
                 )
               ]));
         });

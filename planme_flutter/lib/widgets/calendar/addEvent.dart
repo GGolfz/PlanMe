@@ -100,15 +100,21 @@ class _AddEventState extends State<AddEvent> {
       padding: EdgeInsets.all(10),
       onChanged: onChange,
       placeholder: text,
+      placeholderStyle: TextStyle(fontFamily: 'Nunito'),
       controller: textEditingController,
     );
   }
 
   Widget _buildDatePicker(Function onChange, DateTime initial) {
-    return CupertinoDatePicker(
-        mode: CupertinoDatePickerMode.date,
-        onDateTimeChanged: onChange,
-        initialDateTime: initial);
+    return CupertinoTheme(
+      data: CupertinoThemeData(
+          textTheme: CupertinoTextThemeData(
+              dateTimePickerTextStyle: TextStyle(fontFamily: 'Nunito'))),
+      child: CupertinoDatePicker(
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: onChange,
+          initialDateTime: initial),
+    );
   }
 
   Widget _buildNamePage() {
@@ -203,11 +209,16 @@ class _AddEventState extends State<AddEvent> {
                       _currentPage = DialogPage.name;
                     });
                   },
-                  title: Text("Event Name"),
+                  title: Text("Event Name",
+                      style: TextStyle(fontFamily: 'Nunito')),
                   trailing: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 5,
-                      children: [Text(_eventName), Icon(Icons.chevron_right)]),
+                      children: [
+                        Text(_eventName,
+                            style: TextStyle(fontFamily: 'Nunito')),
+                        Icon(Icons.chevron_right)
+                      ]),
                 ),
                 Divider(
                   height: 5,
@@ -219,12 +230,14 @@ class _AddEventState extends State<AddEvent> {
                       _currentPage = DialogPage.category;
                     });
                   },
-                  title: Text("Event Category"),
+                  title: Text("Event Category",
+                      style: TextStyle(fontFamily: 'Nunito')),
                   trailing: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 5,
                       children: [
-                        Text(_eventCategory.name),
+                        Text(_eventCategory.name,
+                            style: TextStyle(fontFamily: 'Nunito')),
                         Icon(Icons.chevron_right)
                       ]),
                 ),
@@ -238,13 +251,15 @@ class _AddEventState extends State<AddEvent> {
                       _currentPage = DialogPage.date;
                     });
                   },
-                  title: Text("Event Date"),
+                  title: Text("Event Date",
+                      style: TextStyle(fontFamily: 'Nunito')),
                   trailing: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 5,
                       children: [
                         Text(
-                            "${_eventDate.day}/${_eventDate.month}/${_eventDate.year}"),
+                            "${_eventDate.day}/${_eventDate.month}/${_eventDate.year}",
+                            style: TextStyle(fontFamily: 'Nunito')),
                         Icon(Icons.chevron_right)
                       ]),
                 ),
@@ -308,7 +323,8 @@ class _CategorySelectorState extends State<CategorySelector> {
               checkColor: widget.category[index].color,
               activeColor: widget.category[index].color,
               value: widget.category[index].id == selected ? true : false,
-              title: Text(widget.category[index].name),
+              title: Text(widget.category[index].name,
+                  style: TextStyle(fontFamily: 'Nunito')),
               onChanged: (bool value) {
                 setState(() {
                   selected = widget.category[index].id;

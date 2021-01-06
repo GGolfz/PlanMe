@@ -233,11 +233,14 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
               return showDialog(
                   context: context,
                   builder: (ctx) => CupertinoAlertDialog(
-                        title: Text('Are you sure?'),
-                        content: Text('Do you want to remove this item?'),
+                        title: Text('Are you sure?',
+                            style: TextStyle(fontFamily: 'Nunito')),
+                        content: Text('Do you want to remove this item?',
+                            style: TextStyle(fontFamily: 'Nunito')),
                         actions: <Widget>[
                           CupertinoDialogAction(
-                            child: Text('No'),
+                            child: Text('No',
+                                style: TextStyle(fontFamily: 'Nunito')),
                             onPressed: () {
                               Navigator.of(ctx).pop();
                             },
@@ -245,7 +248,8 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
                           CupertinoDialogAction(
                             child: Text(
                               'Yes',
-                              style: TextStyle().copyWith(color: errorColor),
+                              style: TextStyle().copyWith(
+                                  color: errorColor, fontFamily: 'Nunito'),
                             ),
                             onPressed: () {
                               Navigator.of(ctx).pop(true);
@@ -260,8 +264,10 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
               checkColor: categoryColor[event.colorCode.toString()],
               activeColor: categoryColor[event.colorCode.toString()],
               value: event.finish.toString() == "true" ? true : false,
-              title: Text(event.eventName.toString()),
-              subtitle: Text(event.category.toString()),
+              title: Text(event.eventName.toString(),
+                  style: TextStyle(fontFamily: 'Nunito')),
+              subtitle: Text(event.category.toString(),
+                  style: TextStyle(fontFamily: 'Nunito')),
               onChanged: (bool value) {
                 setState(() {
                   event.finish = value;
