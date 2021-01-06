@@ -2,7 +2,7 @@ from .test import TestAPI
 from .auth import Register,Login,isAuth
 from .category import Category
 from .event import Event
-from .timer import Timer
+from .timer import Timer,ReportByCategory,ReportByDay
 from .achievement import Achievement
 def initialize_routes(api):
     api.add_resource(TestAPI, '/api/test')
@@ -13,3 +13,5 @@ def initialize_routes(api):
     api.add_resource(Event,'/api/event')
     api.add_resource(Timer,'/api/timer')
     api.add_resource(Achievement,'/api/achievement')
+    api.add_resource(ReportByCategory,'/api/report/category')
+    api.add_resource(ReportByDay,'/api/report/day')
