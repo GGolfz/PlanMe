@@ -31,7 +31,6 @@ class Authenicate with ChangeNotifier {
     final extractedUserData = prefs.getString('userData');
     _token = json.decode(extractedUserData)['token'];
     notifyListeners();
-    prefs.clear();
     try {
       final response = await Dio().get(baseURL + '/auth/isAuth?token=$_token');
       return response.data['achievements'].toList();

@@ -40,12 +40,14 @@ class _CategoryEditState extends State<CategoryEdit> {
           .createCategory(_textController.text, colorCode);
     }
     Navigator.of(context).pop();
-    alert.reversed.forEach((el) {
+    if (alert != null && alert.length > 0) {
       showDialog(
           context: context,
-          builder: (ctx) =>
-              AchievementAlert(el['level_name'], el['level_img']));
-    });
+          builder: (ctx) => AchievementAlert(
+              alert.length > 1 ? alert.sublist(1) : [],
+              alert[0]['level_name'],
+              alert[0]['level_img']));
+    }
   }
 
   void changeColor(String code) {

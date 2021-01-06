@@ -56,12 +56,14 @@ class _CountdownTimerState extends State<CountdownTimer> {
     });
     final List<dynamic> alert = await Provider.of<Timer>(context, listen: false)
         .saveTimer(_category, _duration);
-    alert.reversed.forEach((el) {
+    if (alert != null && alert.length > 0) {
       showDialog(
           context: context,
-          builder: (ctx) =>
-              AchievementAlert(el['level_name'], el['level_img']));
-    });
+          builder: (ctx) => AchievementAlert(
+              alert.length > 1 ? alert.sublist(1) : [],
+              alert[0]['level_name'],
+              alert[0]['level_img']));
+    }
   }
 
   void _editCategory(List<Category> category) {

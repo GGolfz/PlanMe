@@ -60,14 +60,16 @@ class MyApp extends StatelessWidget {
                     future: Future<bool>.sync(() async {
                       try {
                         final alert = await auth.tryAutoLogin();
-                        alert.reversed.forEach((el) {
-                            final context =
-                                navigatorKey.currentState.overlay.context;
-                            showDialog(
-                                context: context,
-                                builder: (ctx) => AchievementAlert(
-                                    el['level_name'], el['level_img']));
-                        });
+                        final context =
+                            navigatorKey.currentState.overlay.context;
+                        if (alert != null && alert.length > 0) {
+                          showDialog(
+                              context: context,
+                              builder: (ctx) => AchievementAlert(
+                                  alert.length > 1 ? alert.sublist(1) : [],
+                                  alert[0]['level_name'],
+                                  alert[0]['level_img']));
+                        }
                         return true;
                       } catch (error) {
                         return false;
