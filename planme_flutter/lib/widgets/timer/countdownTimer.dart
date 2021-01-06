@@ -145,7 +145,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 CupertinoTheme(
                   data: CupertinoThemeData(
                       textTheme: CupertinoTextThemeData(
-                          dateTimePickerTextStyle: TextStyle(
+                          pickerTextStyle: TextStyle(
                               fontFamily: 'Nunito',
                               color: deepBlack,
                               fontSize: 14))),
