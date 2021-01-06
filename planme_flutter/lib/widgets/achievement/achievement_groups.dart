@@ -19,6 +19,7 @@ class AchievementGroups extends StatelessWidget {
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 color: titleColorBlack,
+                fontFamily: 'Nunito',
               ),
             ),
           ),

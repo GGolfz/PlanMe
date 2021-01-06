@@ -177,7 +177,7 @@ class _PlanMeCalendarState extends State<PlanMeCalendar>
           if (events.isNotEmpty) {
             children.add(
               Positioned(
-                  bottom: 10,
+                  bottom: 15,
                   child: Icon(
                     Icons.circle,
                     color: calendarPrimaryColor,

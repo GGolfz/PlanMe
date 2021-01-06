@@ -21,6 +21,7 @@ class AchievementScreen extends StatelessWidget {
               fontSize: 30.0,
               fontWeight: FontWeight.bold,
               color: titleColorBlack,
+              fontFamily: 'Nunito',
             ),
           ),
           SizedBox(height: 12),

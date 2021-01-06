@@ -27,6 +27,7 @@ class ShowStar extends StatelessWidget {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   color: titleColorBlack,
+                  fontFamily: 'Nunito',
                 ),
               ),
               Icon(

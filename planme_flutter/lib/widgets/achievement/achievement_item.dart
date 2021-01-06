@@ -50,6 +50,7 @@ class AchievementItem extends StatelessWidget {
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
               color: titleColorBlack,
+              fontFamily: 'Nunito',
             ),
           ),
           SizedBox(
@@ -58,7 +59,10 @@ class AchievementItem extends StatelessWidget {
           Text(
             achievement.description,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12.0),
+            style: TextStyle(
+              fontSize: 12.0,
+              fontFamily: 'Nunito',
+            ),
           ),
         ],
       ),
