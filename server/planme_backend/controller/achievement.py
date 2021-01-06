@@ -54,9 +54,9 @@ def checkLoginAccumulateAchievement(uid,cur,conn):
     curlv = 0
     if time >=28:
         curlv = 5
-    elif time >= 14:
+    elif time >= 17:
         curlv = 4
-    elif time >= 7:
+    elif time >= 11:
         curlv = 3
     elif time >= 3:
         curlv = 2
