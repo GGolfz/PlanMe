@@ -16,7 +16,7 @@ class ReportScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Last week report",
+              "Weekly Report",
               style: titleText,
             )
           ],
