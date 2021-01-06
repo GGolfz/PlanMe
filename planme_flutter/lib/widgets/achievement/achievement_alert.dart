@@ -28,7 +28,7 @@ class AchievementAlert extends StatelessWidget {
                   width: 100,
                   height: 100,
                   child: Image.network(
-                    'https://storage.googleapis.com/planme_storage/stickers/$image',
+                    'https://storage.googleapis.com/planme_storage/achievement_list/$image',
                     fit: BoxFit.contain,
                   ))
             ]),

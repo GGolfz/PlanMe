@@ -35,12 +35,12 @@ class AchievementItem extends StatelessWidget {
             ),
             child: achievement.own
                 ? Image.network(
-                    'https://storage.googleapis.com/planme_storage/stickers/${achievement.img}')
+                    'https://storage.googleapis.com/planme_storage/achievement_list/${achievement.img}')
                 : ColorFiltered(
                     colorFilter: ColorFilter.mode(
                         calendarSecondaryColor, BlendMode.color),
                     child: Image.network(
-                        'https://storage.googleapis.com/planme_storage/stickers/${achievement.img}'),
+                        'https://storage.googleapis.com/planme_storage/achievement_list/${achievement.img}'),
                   ),
           ),
           Text(
