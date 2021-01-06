@@ -12,7 +12,10 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(categoryData.name),
+      title: Text(categoryData.name,
+          style: TextStyle(
+            fontFamily: 'Nunito',
+          )),
       leading: Container(
         width: 30,
         height: 30,
@@ -49,11 +52,22 @@ class CategoryItem extends StatelessWidget {
                     context: context,
                     builder: (ctx) {
                       return CupertinoAlertDialog(
-                        title: Text("Are you sure ?"),
-                        content: Text("Do you want to delete this category"),
+                        title: Text("Are you sure ?",
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                            )),
+                        content: Text("Do you want to delete this category",
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                            )),
                         actions: [
                           CupertinoDialogAction(
-                            child: Text("No"),
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -76,7 +90,12 @@ class CategoryItem extends StatelessWidget {
                                             ),
                                             actions: [
                                               CupertinoDialogAction(
-                                                child: Text("OK"),
+                                                child: Text(
+                                                  "OK",
+                                                  style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                  ),
+                                                ),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
@@ -87,7 +106,10 @@ class CategoryItem extends StatelessWidget {
                               },
                               child: Text(
                                 "Yes",
-                                style: TextStyle(color: errorColor),
+                                style: TextStyle(
+                                  color: errorColor,
+                                  fontFamily: 'Nunito',
+                                ),
                               ))
                         ],
                       );
