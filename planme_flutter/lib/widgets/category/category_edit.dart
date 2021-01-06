@@ -67,7 +67,7 @@ class _CategoryEditState extends State<CategoryEdit> {
       child: Container(
         padding: EdgeInsets.all(30),
         width: 350,
-        height: 374,
+        height: 377,
         child: Column(
           children: [
             Row(
