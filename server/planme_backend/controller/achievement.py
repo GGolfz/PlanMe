@@ -111,16 +111,14 @@ def checkTimerAchievement(uid,cur,conn,mtime):
     curlv = 0
     mtime = mtime // 60
     if mtime >= 180:
-        curlv = 6
-    elif mtime >= 120:
         curlv = 5
-    elif mtime >= 60:
+    elif mtime >= 120:
         curlv = 4
-    elif mtime >= 45:
+    elif mtime >= 60:
         curlv = 3
-    elif mtime >= 25:
+    elif mtime >= 45:
         curlv = 2
-    elif mtime >= 10:
+    elif mtime >= 25:
         curlv = 1
     ach = []
     if curlv > lv:
