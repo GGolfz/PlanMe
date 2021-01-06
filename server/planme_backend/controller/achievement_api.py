@@ -16,6 +16,9 @@ def getAchievement(data):
  ORDER BY achievement_id,level_id")
     res = []
     data = cur.fetchall()
+    cur.execute("SELECT sum(achievement_level) FROM user_achievement WHERE uid ='"+uid+"'")
+    lvl = cur.fetchone()
+    lvl = lvl[0]
     for i in data:
         if int(i[0]) <= len(res):
             res[int(i[0])-1]["achievement_list"].append({"level_id":i[2],"level_name":i[3],"level_description":i[4],"level_img":i[5],"finish":i[6]})
@@ -23,6 +26,7 @@ def getAchievement(data):
             res.append({"achievement_id":i[0],"achievement_name": i[1],"achievement_list":[{"level_id":i[2],"level_name":i[3],"level_description":i[4],"level_img":i[5],"finish":i[6]}]})
     returned_data = {
         "success": "true",
+        "lvl": lvl,
         "data": res
     }
     return Response(json.dumps(returned_data), mimetype="application/json", status=200)

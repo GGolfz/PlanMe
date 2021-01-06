@@ -46,14 +46,14 @@ class AchievementGroup {
 class UserAchievement with ChangeNotifier {
   List<AchievementGroup> _achievements;
   String token;
-  UserAchievement(this.token, this._achievements);
+  int lvl;
+  UserAchievement(this.token, this._achievements, this.lvl);
   List<AchievementGroup> get achievements {
     return this._achievements;
   }
 
   Future<void> fetchData() async {
-    final response = await Dio()
-        .get(baseURL + '/achievement?token=' + token);
+    final response = await Dio().get(baseURL + '/achievement?token=' + token);
     List<AchievementGroup> ach = [];
     final data = response.data["data"].toList();
     data.forEach((el) {
@@ -65,6 +65,7 @@ class UserAchievement with ChangeNotifier {
       });
       ach.add(AchievementGroup(name, achlist));
     });
+    lvl = response.data["lvl"];
     _achievements = ach;
     notifyListeners();
   }

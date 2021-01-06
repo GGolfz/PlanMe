@@ -33,10 +33,12 @@ class MyApp extends StatelessWidget {
                     auth.token, prev == null ? [] : prev.category);
               }),
           ChangeNotifierProxyProvider<Authenicate, UserAchievement>(
-              create: (ctx) => UserAchievement(null, []),
+              create: (ctx) => UserAchievement(null, [], 0),
               update: (ctx, auth, prev) {
                 return UserAchievement(
-                    auth.token, prev == null ? [] : prev.achievements);
+                    auth.token,
+                    prev == null ? [] : prev.achievements,
+                    prev == null ? 0 : prev.lvl);
               }),
           ChangeNotifierProxyProvider<Authenicate, UserEvent>(
               create: (ctx) => UserEvent(null, {}),
