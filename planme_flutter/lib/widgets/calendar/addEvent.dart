@@ -110,8 +110,8 @@ class _AddEventState extends State<AddEvent> {
     return CupertinoTheme(
       data: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
-              dateTimePickerTextStyle:
-                  TextStyle(fontFamily: 'Nunito', color: deepBlack))),
+              dateTimePickerTextStyle: TextStyle(
+                  fontFamily: 'Nunito', color: deepBlack, fontSize: 14))),
       child: CupertinoDatePicker(
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: onChange,
