@@ -10,6 +10,7 @@ def getAchievement(data):
     conn = getConntection()
     cur = conn.cursor()
     cur.execute("SELECT achievement.achievement_id,achievement_name,level_id,level_name,level_description,level_img,true FROM achievement JOIN ach_level al on achievement.achievement_id = al.achievement_id JOIN user_achievement ua on achievement.achievement_id = ua.achievement_id AND ua.achievement_level >= al.level_id\
+ WHERE uid = '"+uid+"'\
  UNION\
  SELECT achievement.achievement_id,achievement_name,level_id,level_name,level_description,level_img,false FROM achievement JOIN ach_level al on achievement.achievement_id = al.achievement_id JOIN user_achievement ua on achievement.achievement_id = ua.achievement_id AND ua.achievement_level < al.level_id\
  WHERE uid = '"+uid+"'\
