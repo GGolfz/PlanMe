@@ -13,8 +13,8 @@ import 'providers/authenicateProvider.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
 class MyApp extends StatelessWidget {

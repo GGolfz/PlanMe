@@ -118,12 +118,14 @@ class _PlanMeBarChartState extends State<PlanMeBarChart> {
           showTitles: true,
           getTextStyles: (value) => normalText.copyWith(
               color: deepBlack, fontSize: 12, fontWeight: FontWeight.bold),
-          interval: weekDayReport.max / 5,
+          interval: weekDayReport.max == 0 ? 60 : weekDayReport.max / 5,
         ),
       ),
       borderData: FlBorderData(
-        show: false,
-      ),
+          show: true,
+          border: Border(
+              left: BorderSide(width: 1, color: subTitleColorBlack),
+              bottom: BorderSide(width: 1, color: subTitleColorBlack))),
       barGroups: showingGroups(weekDayReport),
     );
   }
