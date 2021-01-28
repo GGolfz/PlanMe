@@ -11,7 +11,7 @@ services:
             - NODE_ENV=development
             - PORT=5000
             - DB_USER=planme_user
-            - DB_PASSWORD=PI3A8gLDftt5GKi7
+            - DB_PASSWORD=
             - DB_HOST=planme_postgres
             - DB_PORT=5432
             - DB_NAME=planme_db
@@ -30,7 +30,7 @@ services:
         image: "postgres:12"
         environment:
         - POSTGRES_USER=planme_user
-        - POSTGRES_PASSWORD=PI3A8gLDftt5GKi7
+        - POSTGRES_PASSWORD=
         - POSTGRES_DB=planme_db
         volumes:
         - database-data:/var/lib/postgresql/data/
